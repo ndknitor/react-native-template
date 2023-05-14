@@ -1,0 +1,22 @@
+{
+  "expo": {
+    "name": "my-nativewind-app",
+    "slug": "my-nativewind-app",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "3af927ea-7d41-4db9-b66a-a7c40c52697f"
+      }
+    },
+    "android": {
+      "package": "com.knguyenzzz.mynativewindapp"
+    },
+    "ios": {
+      "bundleIdentifier": "com.knguyenzzz.mynativewindapp"
+    }
+  },
+  "name": "my-nativewind-app"
+}
