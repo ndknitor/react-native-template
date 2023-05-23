@@ -113,9 +113,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace 'com.knguyenzzz.mynativewindapp'
+    namespace 'com.knguyenzzz.rntemplate'
     defaultConfig {
-        applicationId 'com.knguyenzzz.mynativewindapp'
+        applicationId 'com.knguyenzzz.rntemplate'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

@@ -1,22 +1,37 @@
 {
   "expo": {
-    "name": "my-nativewind-app",
-    "slug": "my-nativewind-app",
+    "name": "rn-template",
+    "slug": "rn-template",
     "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
     "assetBundlePatterns": [
       "**/*"
     ],
-    "extra": {
-      "eas": {
-        "projectId": "3af927ea-7d41-4db9-b66a-a7c40c52697f"
-      }
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.knguyenzzz.rntemplate"
     },
     "android": {
-      "package": "com.knguyenzzz.mynativewindapp"
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.knguyenzzz.rntemplate"
     },
-    "ios": {
-      "bundleIdentifier": "com.knguyenzzz.mynativewindapp"
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "510e1e9c-5fd4-49b3-87f1-e506ce4b6e93"
+      }
     }
-  },
-  "name": "my-nativewind-app"
+  }
 }

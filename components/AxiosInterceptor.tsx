@@ -1,12 +1,12 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { PropsWithChildren, useEffect } from 'react'
 import Toast from 'react-native-root-toast';
-
+import { API_BASE_URL, REQUEST_TIMEOUT } from "@env"
 const appxios = axios.create({
-    baseURL: process.env.BASE_URL,
+    baseURL: API_BASE_URL,
+    timeout: REQUEST_TIMEOUT | 3000,
     validateStatus: () => true
 });
-appxios.defaults.timeout = parseInt(process.env.REQUEST_TIMEOUT as string);
 export function setAuthorizationBearer(jwt?: string) {
     if (jwt) {
         appxios.defaults.headers.common['Authorization'] = `Bearer ${jwt}`;
@@ -14,7 +14,6 @@ export function setAuthorizationBearer(jwt?: string) {
     else {
         delete appxios.defaults.headers.common['Authorization'];
     }
-
 }
 
 export function AxiosInterceptor({ children }: PropsWithChildren) {
@@ -35,7 +34,7 @@ export function AxiosInterceptor({ children }: PropsWithChildren) {
                 Toast.show('Lỗi kết nối mạng, vui lòng thử lại sau', {
                     duration: Toast.durations.LONG,
                     position: Toast.positions.BOTTOM,
-                    backgroundColor : "red",
+                    backgroundColor: "red",
                     shadow: true,
                     animation: true,
                     hideOnPress: true,
