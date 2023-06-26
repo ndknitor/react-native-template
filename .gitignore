@@ -1,6 +1,5 @@
 yarn.lock
 *.log
-*.log
 # OSX
 #
 .DS_Store
