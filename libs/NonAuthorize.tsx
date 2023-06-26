@@ -2,8 +2,9 @@ import React, { PropsWithChildren, useContext, useEffect} from 'react';
 import { forbiddenRedirect } from '../utils/Redirect';
 import { AuthorizeContext } from './AuthorizeProvider';
 import useRouter from './hook/useRouter';
+import { AppScreens } from '../Routes';
 interface Props extends PropsWithChildren {
-    forbiddenRedirect?: string;
+    forbiddenRedirect?: keyof AppScreens;
 }
 function NonAuthorize(props: Props) {
     const { authenticated, initLoading } = useContext(AuthorizeContext);

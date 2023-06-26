@@ -1,11 +1,12 @@
 import React, { PropsWithChildren, useContext, useEffect } from 'react'
-import { forbiddenRedirect, unauthenticatedRedirect } from '../utils/Redirect';
 import { AuthorizeContext } from './AuthorizeProvider';
 import useRouter from './hook/useRouter';
+import { AppScreens } from '../Routes';
+import { forbiddenRedirect, unauthenticatedRedirect } from '../utils/Redirect';
 interface Props extends PropsWithChildren {
     roles?: string[];
-    unauthenticatedRedirect?: string;
-    forbiddenRedirect?: string;
+    unauthenticatedRedirect?: keyof AppScreens;
+    forbiddenRedirect?: keyof AppScreens;
 }
 function Authorize(props: Props) {
     const { replace } = useRouter();

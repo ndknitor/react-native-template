@@ -1,0 +1,30 @@
+export function formatNumber(num: number | undefined) {
+    if (num) {
+        return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.")
+    }
+    return "";
+}
+
+export function getMaxPage(limit: number, total: number) {
+    return Math.ceil(total / limit);
+}
+
+export function range(start: number, end: number) {
+    return Array.from(Array(end - start + 1).keys()).map(x => x + start);
+}
+
+export function sleep(ms: number): Promise<void> {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+export function truncateString(str: string | undefined, wordCount: number): string {
+    if (str) {
+        const words = str.split(" ");
+        if (words.length <= wordCount) {
+            return str;
+        } else {
+            return words.slice(0, wordCount).join(" ") + "...";
+        }
+    }
+    return "";
+}

@@ -1,7 +1,9 @@
-import axios, { AxiosError, AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import { PropsWithChildren, useEffect } from 'react'
 import Toast from 'react-native-root-toast';
-import { API_BASE_URL, REQUEST_TIMEOUT } from "@env"
+import { API_BASE_URL, REQUEST_TIMEOUT } from "@env";
+import colors from '../utils/colors';
+import React from 'react';
 const appxios = axios.create({
     baseURL: API_BASE_URL,
     timeout: REQUEST_TIMEOUT | 3000,
@@ -18,7 +20,7 @@ export function setAuthorizationBearer(jwt?: string) {
 
 export function AxiosInterceptor({ children }: PropsWithChildren) {
     useEffect(() => {
-        const beforeRequest = (config: any) => {
+        const beforeRequest = (config: InternalAxiosRequestConfig) => {
             return config;
         }
         const requestError = (error: any) => {
@@ -32,16 +34,15 @@ export function AxiosInterceptor({ children }: PropsWithChildren) {
         const onResponseError = (error: AxiosError) => {
             if (error.code == "ERR_NETWORK" || error.code == "ECONNABORTED") {
                 Toast.show('Lỗi kết nối mạng, vui lòng thử lại sau', {
-                    duration: Toast.durations.LONG,
+                    duration: Toast.durations.SHORT,
                     position: Toast.positions.BOTTOM,
-                    backgroundColor: "red",
+                    backgroundColor: colors.error,
                     shadow: true,
                     animation: true,
                     hideOnPress: true,
-                    delay: 0,
+                    delay: 0
                 });
             }
-            console.log(error);
             return Promise.reject(error);
         }
         appxios.interceptors.request.use(beforeRequest, requestError);

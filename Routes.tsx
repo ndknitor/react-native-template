@@ -1,35 +1,44 @@
 import React from 'react'
-import { NavigationContainer, ParamListBase } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import useAuth from './libs/hook/useAuth';
 import { createStackNavigator } from '@react-navigation/stack';
 import Index from './pages/Index';
 import { ActivityIndicator } from '@react-native-material/core';
 import About from './pages/public/About';
+import useAuthorizeInit from './libs/hook/useAuthorizeInit';
 
 const Stack = createStackNavigator();
 export type AppScreens = {
   Index: undefined;
   About: undefined;
+  Forbidden: undefined;
+  Unauthorized: undefined;
 }
 
-export default function Routes() {
-  const { initLoading, isInRole, authenticated } = useAuth();
+
+function StackScreens() {
+  const { initLoading } = useAuth();
+  useAuthorizeInit();
   return (
     <>
       {
         initLoading ?
-          <NavigationContainer>
-            <Stack.Navigator>
-
-              <Stack.Screen name={"Index"} component={Index}></Stack.Screen>
-              <Stack.Screen name={"About"} component={About}></Stack.Screen>
-
-
-            </Stack.Navigator>
-          </NavigationContainer>
+          <ActivityIndicator size={70} style={{ width: "100%", height: "100%" }} />
           :
-          <ActivityIndicator size={"large"} />
+          <Stack.Navigator>
+            <Stack.Screen name={"Index"} component={Index}></Stack.Screen>
+            <Stack.Screen name={"About"} component={About}></Stack.Screen>
+          </Stack.Navigator>
       }
     </>
-  )
+  );
+}
+
+
+export default function Routes() {
+  return (
+    <NavigationContainer fallback={<ActivityIndicator />}>
+      <StackScreens />
+    </NavigationContainer>
+  );
 }
