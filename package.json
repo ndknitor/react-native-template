@@ -1,5 +1,5 @@
 {
-  "name": "myapp",
+  "name": "travelapp",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -10,6 +10,7 @@
     "clean-ios": "cd ios && rm -rf build && rm -rf Pods && rm -rf *.xcworkspace && rm -rf Podfile.lock && rm -rf *.xcworkspace && rm -rf *.xcuserdata",
     "ios": "react-native run-ios",
     "icon": "npx react-native set-icon --path ./assets/icon.png",
+    "rename" : "npx react-native-rename $1",
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest"
