@@ -1,5 +1,5 @@
 {
-  "name": "myapp",
+  "name": "kntemplate",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -8,6 +8,8 @@
     "clean-android": "cd android && ./gradlew clean",
     "build-ios": "cd ios && pod install && xcodebuild -workspace YourProjectName.xcworkspace -scheme YourSchemeName -configuration Release",
     "clean-ios": "cd ios && rm -rf build && rm -rf Pods && rm -rf *.xcworkspace && rm -rf Podfile.lock && rm -rf *.xcworkspace && rm -rf *.xcuserdata",
+    "clean": "yarn clean-android && yarn clean-ios",
+    "build": "yarn build-android && yarn build-ios",
     "ios": "react-native run-ios",
     "icon": "npx react-native set-icon --path ./assets/icon.png",
     "rename": "npx react-native-rename --skipGitStatusCheck $1",
