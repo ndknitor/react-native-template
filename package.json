@@ -4,6 +4,10 @@
   "private": true,
   "scripts": {
     "android": "react-native run-android",
+    "build-android": "cd android && ./gradlew assembleRelease",
+    "clean-android": "cd android && ./gradlew clean",
+    "build-ios": "cd ios && pod install && xcodebuild -workspace YourProjectName.xcworkspace -scheme YourSchemeName -configuration Release",
+    "clean-ios": "cd ios && rm -rf build && rm -rf Pods && rm -rf *.xcworkspace && rm -rf Podfile.lock && rm -rf *.xcworkspace && rm -rf *.xcuserdata",
     "ios": "react-native run-ios",
     "lint": "eslint .",
     "start": "react-native start",
