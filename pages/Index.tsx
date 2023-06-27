@@ -1,4 +1,4 @@
-import { Button, Text, TextInput } from '@react-native-material/core'
+import { Button, Text } from '@react-native-material/core'
 import React from 'react'
 import { View } from 'react-native'
 import Toast from 'react-native-root-toast';
@@ -7,6 +7,9 @@ import { useFormik } from 'formik';
 import colors from '../utils/colors';
 import appxios, { InterceptorParams } from '../components/AxiosInterceptor';
 import SignInRequest from '../objects/requests/SignInRequest';
+import FullWidthTextInput from '../components/FullWidthTextInput/FullWidthTextInput';
+import HorizontalSpace from '../components/HorizontalSpace/HorizontalSpace';
+import ErrorText from '../components/ErrorText/ErrorText';
 
 export default function Index() {
     const { navigate } = useRouter();
@@ -20,7 +23,7 @@ export default function Index() {
     });
 
     return (
-        <View style={{ height: "100%", alignItems: "center", justifyContent: "center" }}>
+        <View style={{ height: "100%", alignItems: "center", justifyContent: "center", padding: 20 }}>
             <Text>Hello</Text>
             <Button onPress={async () => {
                 // await appxios.get("", {
@@ -28,38 +31,38 @@ export default function Index() {
                 //         loadingLock: true
                 //     } as InterceptorParams
                 // });
-                Toast.show('Lỗi kết nối mạng, vui lòng thử lại sau', {
+                Toast.show('Địt mẹ mày', {
                     duration: Toast.durations.LONG,
                     position: Toast.positions.BOTTOM,
-                    shadow: true,
+                    shadow: false,
                     animation: true,
                     hideOnPress: true,
                     delay: 0,
-                    backgroundColor: colors.error
                 });
             }} title="Hello" />
             <Button onPress={() => {
                 navigate('About');
             }} title="About" />
-            <TextInput
+
+            <FullWidthTextInput
                 onChangeText={formik.handleChange('email')}
                 onBlur={formik.handleBlur('email')}
                 value={formik.values.email}
                 placeholder="Email"
             />
-            {formik.errors.email && <Text>{formik.errors.email}</Text>}
-
-            <TextInput
+            <ErrorText>{formik.errors.email}</ErrorText>
+            <FullWidthTextInput
                 onChangeText={formik.handleChange('password')}
                 onBlur={formik.handleBlur('password')}
                 value={formik.values.password}
                 placeholder="Password"
                 secureTextEntry
             />
-            {formik.errors.password && <Text>{formik.errors.password}</Text>}
+            <ErrorText>{formik.errors.password}</ErrorText>
+
+            <HorizontalSpace />
 
             <Button title="Submit" onPress={() => formik.handleSubmit()} />
-
         </View>
     )
 }

@@ -60,7 +60,6 @@ export function AxiosInterceptor({ children }: PropsWithChildren) {
                 duration: Toast.durations.SHORT,
                 position: Toast.positions.BOTTOM,
                 backgroundColor: colors.error,
-                shadow: true,
                 animation: true,
                 hideOnPress: true,
                 delay: 0
