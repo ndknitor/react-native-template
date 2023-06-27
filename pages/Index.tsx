@@ -1,12 +1,24 @@
-import { Button, Text } from '@react-native-material/core'
+import { Button, Text, TextInput } from '@react-native-material/core'
 import React from 'react'
 import { View } from 'react-native'
 import Toast from 'react-native-root-toast';
 import useRouter from '../libs/hook/useRouter';
+import { useFormik } from 'formik';
 import colors from '../utils/colors';
 import appxios, { InterceptorParams } from '../components/AxiosInterceptor';
+import SignInRequest from '../objects/requests/SignInRequest';
+
 export default function Index() {
     const { navigate } = useRouter();
+
+    const formik = useFormik({
+        initialValues: SignInRequest.getDefault(),
+        validationSchema: SignInRequest,
+        onSubmit: (values) => {
+            console.log(values);
+        },
+    });
+
     return (
         <View style={{ height: "100%", alignItems: "center", justifyContent: "center" }}>
             <Text>Hello</Text>
@@ -29,6 +41,25 @@ export default function Index() {
             <Button onPress={() => {
                 navigate('About');
             }} title="About" />
+            <TextInput
+                onChangeText={formik.handleChange('email')}
+                onBlur={formik.handleBlur('email')}
+                value={formik.values.email}
+                placeholder="Email"
+            />
+            {formik.errors.email && <Text>{formik.errors.email}</Text>}
+
+            <TextInput
+                onChangeText={formik.handleChange('password')}
+                onBlur={formik.handleBlur('password')}
+                value={formik.values.password}
+                placeholder="Password"
+                secureTextEntry
+            />
+            {formik.errors.password && <Text>{formik.errors.password}</Text>}
+
+            <Button title="Submit" onPress={() => formik.handleSubmit()} />
+
         </View>
     )
 }
