@@ -5,7 +5,6 @@ import Toast from 'react-native-root-toast';
 import useRouter from '../libs/hook/useRouter';
 import colors from '../utils/colors';
 import appxios, { InterceptorParams } from '../components/AxiosInterceptor';
-import { AxiosProxyConfig } from 'axios';
 export default function Index() {
     const { navigate } = useRouter();
     return (
