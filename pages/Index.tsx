@@ -1,19 +1,18 @@
-import { Button, Text } from '@react-native-material/core'
+import { AppBar, Button, Text } from '@react-native-material/core'
 import React from 'react'
 import { View } from 'react-native'
 import Toast from 'react-native-root-toast';
 import useRouter from '../libs/hook/useRouter';
 import { useFormik } from 'formik';
-import colors from '../utils/colors';
 import appxios, { InterceptorParams } from '../components/AxiosInterceptor';
 import SignInRequest from '../objects/requests/SignInRequest';
-import FullWidthTextInput from '../components/FullWidthTextInput/FullWidthTextInput';
 import HorizontalSpace from '../components/HorizontalSpace/HorizontalSpace';
 import ErrorText from '../components/ErrorText/ErrorText';
+import ThemeTextInput from '../components/ThemeTextInput/ThemeTextInput';
+import AssetSvg from '../assets/icons';
 
 export default function Index() {
     const { navigate } = useRouter();
-
     const formik = useFormik({
         initialValues: SignInRequest.getDefault(),
         validationSchema: SignInRequest,
@@ -24,6 +23,7 @@ export default function Index() {
 
     return (
         <View style={{ height: "100%", alignItems: "center", justifyContent: "center", padding: 20 }}>
+            <AssetSvg.Ruby width={100} height={100}/>
             <Text>Hello</Text>
             <Button onPress={async () => {
                 // await appxios.get("", {
@@ -44,14 +44,14 @@ export default function Index() {
                 navigate('About');
             }} title="About" />
 
-            <FullWidthTextInput
+            <ThemeTextInput
                 onChangeText={formik.handleChange('email')}
                 onBlur={formik.handleBlur('email')}
                 value={formik.values.email}
                 placeholder="Email"
             />
             <ErrorText>{formik.errors.email}</ErrorText>
-            <FullWidthTextInput
+            <ThemeTextInput
                 onChangeText={formik.handleChange('password')}
                 onBlur={formik.handleBlur('password')}
                 value={formik.values.password}

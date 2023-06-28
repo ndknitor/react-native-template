@@ -1,22 +1,22 @@
 import { Image, ImageResizeMode, ImageSourcePropType } from "react-native";
-import ScreenShotSource from "./images/ScreenShot.png";
+import ScreenShotSource from "./assets/ScreenShot.png";
 import React from "react";
 
 export function ScreenShot(props: AssetProps) {
     return (
-        <Asset source={ScreenShotSource} {...props} />
+        <AssetImage source={ScreenShotSource} {...props} />
     )
 }
 
 
-const Asset = (props: AssetSourceProps) => {
+const AssetImage = (props: AssetSourceProps) => {
     return (
         <Image source={props.source} style={{ width: props.width, height: props.height }} resizeMode={props.resizeMode} resizeMethod={props.resizeMethod} />
     )
 }
-Asset.ScreenShot = ScreenShot;
+AssetImage.ScreenShot = ScreenShot;
 
-export default Asset;
+export default AssetImage;
 
 //////////////////////////////////////////
 interface AssetSourceProps extends AssetProps {
