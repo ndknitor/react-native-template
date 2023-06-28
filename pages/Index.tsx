@@ -9,7 +9,7 @@ import SignInRequest from '../objects/requests/SignInRequest';
 import HorizontalSpace from '../components/HorizontalSpace/HorizontalSpace';
 import ErrorText from '../components/ErrorText/ErrorText';
 import ThemeTextInput from '../components/ThemeTextInput/ThemeTextInput';
-import AssetSvg from '../assets/icons';
+import AssetSvg from '../assets/svgs';
 
 export default function Index() {
     const { navigate } = useRouter();
@@ -23,7 +23,7 @@ export default function Index() {
 
     return (
         <View style={{ height: "100%", alignItems: "center", justifyContent: "center", padding: 20 }}>
-            <AssetSvg.Ruby width={100} height={100}/>
+            <AssetSvg.Ruby width={100} height={100} />
             <Text>Hello</Text>
             <Button onPress={async () => {
                 // await appxios.get("", {
