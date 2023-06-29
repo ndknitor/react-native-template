@@ -48,6 +48,7 @@ export default function Index() {
                         delay: 0,
                     });
                 }} >Sample toast</Button>
+            <HorizontalSpace />
             <Button
                 mode='contained'
                 onPress={() => {
