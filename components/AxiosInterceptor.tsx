@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
-import { PropsWithChildren, useEffect, useState } from 'react'
+import { PropsWithChildren, createContext, useContext, useEffect, useState } from 'react'
 import Toast from 'react-native-root-toast';
 import { API_BASE_URL, REQUEST_TIMEOUT } from "@env";
 import colors from '../utils/colors';
@@ -22,6 +22,10 @@ export function setAuthorizationBearer(jwt?: string) {
     }
 }
 
+const AxiosLoadingContext = createContext<{ loading: boolean }>({ loading: false });
+export function useAxiosLoading() {
+    return useContext(AxiosLoadingContext);
+}
 export function AxiosInterceptor({ children }: PropsWithChildren) {
     const [loading, setLoading] = useState(false);
     useEffect(() => {
@@ -71,10 +75,10 @@ export function AxiosInterceptor({ children }: PropsWithChildren) {
         return () => appxios.interceptors.response.eject(interceptor);
     }, [])
     return (
-        <>
+        <AxiosLoadingContext.Provider value={{ loading }}>
             <PageLoader loading={loading} />
             {children}
-        </>
+        </AxiosLoadingContext.Provider>
     )
 }
 
