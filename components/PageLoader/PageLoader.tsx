@@ -1,6 +1,6 @@
-import { ActivityIndicator } from "@react-native-material/core";
 import React from "react";
 import { View } from "react-native";
+import { ActivityIndicator } from "react-native-paper";
 
 export default function PageLoader({ loading, zIndex, opacity }: { loading: boolean, zIndex?: number, opacity?: number }) {
     return (

@@ -3,9 +3,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import useAuth from './libs/hook/useAuth';
 import { createStackNavigator } from '@react-navigation/stack';
 import Index from './pages/Index';
-import { ActivityIndicator } from '@react-native-material/core';
 import About from './pages/public/About';
 import useAuthorizeInit from './libs/hook/useAuthorizeInit';
+import { ActivityIndicator } from 'react-native-paper';
 
 const Stack = createStackNavigator();
 export type AppScreens = {
