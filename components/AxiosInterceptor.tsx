@@ -24,15 +24,18 @@ export function setAuthorizationBearer(jwt?: string) {
 
 const AxiosLoadingContext = createContext<{ loading: boolean }>({ loading: false });
 export function useAxiosLoading() {
-    return useContext(AxiosLoadingContext);
+    return useContext(AxiosLoadingContext).loading;
 }
+
 export function AxiosInterceptor({ children }: PropsWithChildren) {
     const [loading, setLoading] = useState(false);
+    const [lockLoading, setLockLoading] = useState(false);
     useEffect(() => {
         const beforeRequest = (config: InternalAxiosRequestConfig) => {
+            setLoading(true);
             const params = config.params as InterceptorParams;
             if (params.loadingLock) {
-                setLoading(true);
+                setLockLoading(true);
             }
             return config;
         }
@@ -40,18 +43,20 @@ export function AxiosInterceptor({ children }: PropsWithChildren) {
             return Promise.reject(error);
         }
         const onResponse = (response: AxiosResponse<any, any>) => {
+            setLoading(false);
             console.log(`Path: ${response.config.url}; Method:${response.config.method}; Status: ${response.status};
             Body:${response.config.data}`);
             const params = response.config.params as InterceptorParams;
             if (params.loadingLock) {
-                setLoading(false);
+                setLockLoading(false);
             }
             return response;
         }
         const onResponseError = (error: AxiosError) => {
+            setLoading(false);
             const params = error.config?.params as InterceptorParams;
             if (params.loadingLock) {
-                setLoading(false);
+                setLockLoading(false);
             }
             let message = "";
             if (error.code == "ERR_NETWORK") {
@@ -76,7 +81,7 @@ export function AxiosInterceptor({ children }: PropsWithChildren) {
     }, [])
     return (
         <AxiosLoadingContext.Provider value={{ loading }}>
-            <PageLoader loading={loading} />
+            <PageLoader loading={lockLoading} />
             {children}
         </AxiosLoadingContext.Provider>
     )
