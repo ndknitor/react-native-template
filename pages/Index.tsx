@@ -9,6 +9,7 @@ import HorizontalSpace from '../components/HorizontalSpace/HorizontalSpace';
 import ThemeTextInput from '../components/ThemeTextInput/ThemeTextInput';
 import AssetSvg from '../assets/svgs';
 import { Button, Text } from 'react-native-paper';
+import languages from '../utils/language';
 
 export default function Index() {
     const { navigate } = useRouter();
@@ -26,6 +27,7 @@ export default function Index() {
             });
         },
     });
+    const locateId = "en";
 
     return (
         <View style={{ height: "100%", alignItems: "center", justifyContent: "center", padding: 20 }}>
@@ -39,7 +41,7 @@ export default function Index() {
                     //         loadingLock: true
                     //     } as InterceptorParams
                     // });
-                    Toast.show('Địt mẹ mày', {
+                    Toast.show(languages[locateId].index.sampleToastNotification, {
                         duration: Toast.durations.LONG,
                         position: Toast.positions.BOTTOM,
                         shadow: false,
@@ -47,7 +49,7 @@ export default function Index() {
                         hideOnPress: true,
                         delay: 0,
                     });
-                }} >Sample toast</Button>
+                }} >{languages[locateId].index.sampleToastButton}</Button>
             <HorizontalSpace />
             <Button
                 mode='contained'
@@ -59,13 +61,11 @@ export default function Index() {
                 <ThemeTextInput
                     formik={formik}
                     name='email'
-                    //value={formik.values.email}
                     placeholder="Email"
                 />
                 <ThemeTextInput
                     formik={formik}
                     name='password'
-                    //value={formik.values.password}
                     placeholder="Password"
                     secureTextEntry
                 />
