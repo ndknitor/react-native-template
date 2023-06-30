@@ -10,6 +10,7 @@ import ThemeTextInput from '../components/ThemeTextInput/ThemeTextInput';
 import AssetSvg from '../assets/svgs';
 import { Button, Text } from 'react-native-paper';
 import languages from '../utils/language';
+import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 
 export default function Index() {
     const { navigate } = useRouter();
