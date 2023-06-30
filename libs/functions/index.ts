@@ -28,3 +28,14 @@ export function truncateString(str: string | undefined, wordCount: number): stri
     }
     return "";
 }
+export function randomInt(min: number, max: number): number {
+    // Ensure the minimum and maximum values are integers
+    min = Math.floor(min);
+    max = Math.floor(max);
+
+    // Generate a random number between 0 and (max - min)
+    const randomNumber = Math.floor(Math.random() * (max - min + 1));
+
+    // Return the random number plus the minimum value
+    return randomNumber + min;
+}

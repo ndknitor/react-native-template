@@ -55,27 +55,23 @@ export default function Index() {
                     navigate('About');
                 }} >About</Button>
 
-            <ThemeTextInput
-                onChangeText={formik.handleChange('email')}
-                onBlur={formik.handleBlur('email')}
-                error={formik.errors.email != undefined}
-                helperText={formik.errors.email}
-                value={formik.values.email}
-                placeholder="Email"
-            />
-            <ThemeTextInput
-                onChangeText={formik.handleChange('password')}
-                onBlur={formik.handleBlur('password')}
-                error={formik.errors.password != undefined}
-                helperText={formik.errors.password}
-                value={formik.values.password}
-                placeholder="Password"
-                secureTextEntry
-            />
+            <View style={{ width: "100%", rowGap: 10 }}>
+                <ThemeTextInput
+                    formik={formik}
+                    name='email'
+                    //value={formik.values.email}
+                    placeholder="Email"
+                />
+                <ThemeTextInput
+                    formik={formik}
+                    name='password'
+                    //value={formik.values.password}
+                    placeholder="Password"
+                    secureTextEntry
+                />
+                <Button mode='contained' onPress={() => formik.handleSubmit()}>Submit</Button>
+            </View>
 
-            <HorizontalSpace />
-
-            <Button mode='contained' onPress={() => formik.handleSubmit()}>Submit</Button>
         </View>
     )
 }
