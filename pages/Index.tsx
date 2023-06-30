@@ -10,8 +10,6 @@ import ThemeTextInput from '../components/ThemeTextInput/ThemeTextInput';
 import AssetSvg from '../assets/svgs';
 import { Button, Text } from 'react-native-paper';
 import languages from '../utils/language';
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
-import Skeleton from '../components/Skeleton/Skeleton';
 
 export default function Index() {
     const { navigate } = useRouter();
@@ -43,14 +41,7 @@ export default function Index() {
                     //         loadingLock: true
                     //     } as InterceptorParams
                     // });
-                    Toast.show(languages[locateId].index.sampleToastNotification, {
-                        duration: Toast.durations.LONG,
-                        position: Toast.positions.BOTTOM,
-                        shadow: false,
-                        animation: true,
-                        hideOnPress: true,
-                        delay: 0,
-                    });
+                    Toast.show(languages[locateId].index.sampleToastNotification);
                 }} >{languages[locateId].index.sampleToastButton}</Button>
             <HorizontalSpace />
             <Button
