@@ -11,6 +11,7 @@ import AssetSvg from '../assets/svgs';
 import { Button, Text } from 'react-native-paper';
 import languages from '../utils/language';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+import Skeleton from '../components/Skeleton/Skeleton';
 
 export default function Index() {
     const { navigate } = useRouter();
@@ -72,7 +73,6 @@ export default function Index() {
                 />
                 <Button mode='contained' onPress={() => formik.handleSubmit()}>Submit</Button>
             </View>
-
         </View>
     )
 }
