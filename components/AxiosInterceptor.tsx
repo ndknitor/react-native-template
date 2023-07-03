@@ -5,6 +5,7 @@ import { API_BASE_URL, REQUEST_TIMEOUT } from "@env";
 import colors from '../utils/colors';
 import React from 'react';
 import PageLoader from './PageLoader/PageLoader';
+import languages from '../utils/language';
 const appxios = axios.create({
     baseURL: API_BASE_URL,
     timeout: REQUEST_TIMEOUT | 3000,
@@ -70,10 +71,10 @@ export function AxiosInterceptor({ children }: PropsWithChildren) {
             }
             let message = "";
             if (error.code == "ERR_NETWORK") {
-                message = "Lỗi kết nối với máy chủ, vui lòng thử lại sau"
+                message = languages["en"].appxios.serverError;
             }
             else if (error.code == "ECONNABORTED") {
-                message = "Lỗi kết nối mạng, vui lòng thử lại sau";
+                message = languages["en"].appxios.internetError;
             }
             Toast.show(message, {
                 duration: Toast.durations.SHORT,
