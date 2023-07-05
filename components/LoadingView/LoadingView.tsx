@@ -12,7 +12,7 @@ interface LoadingViewProps extends ViewProps {
 const LoadingView: React.FC<LoadingViewProps> = (props) => {
     const placeholderFadeAnim = useRef(new Animated.Value(1)).current;
     const contentFadeAnim = useRef(new Animated.Value(0)).current;
-    const duration = 300;
+    const duration = 100;
     useEffect(() => {
         if (props.loading) {
             Animated.timing(placeholderFadeAnim, {
