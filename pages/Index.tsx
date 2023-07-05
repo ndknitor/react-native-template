@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { View } from 'react-native'
 import Toast from 'react-native-root-toast';
 import useRouter from '../libs/hook/useRouter';
@@ -10,6 +10,8 @@ import ThemeTextInput from '../components/ThemeTextInput/ThemeTextInput';
 import AssetSvg from '../assets/svgs';
 import { Button, Text } from 'react-native-paper';
 import languages from '../utils/language';
+import LoadingView from '../components/LoadingView/LoadingView';
+import Skeleton from '../components/Skeleton/Skeleton';
 
 export default function Index() {
     const { navigate } = useRouter();
@@ -27,10 +29,8 @@ export default function Index() {
             });
         },
     });
-    const locateId = "en";
-
     return (
-        <View style={{ height: "100%", alignItems: "center", justifyContent: "center", padding: 20 }}>
+        <View style={{ height: "100%", alignItems: "center", justifyContent: "center", padding: 10 }}>
             <AssetSvg.Ruby width={100} height={100} />
             <Text>Hello</Text>
             <Button
@@ -41,8 +41,8 @@ export default function Index() {
                     //         loadingLock: true
                     //     } as InterceptorParams
                     // });
-                    Toast.show(languages[locateId].index.sampleToastNotification);
-                }} >{languages[locateId].index.sampleToastButton}</Button>
+                    Toast.show("Dit me may");
+                }} >Click</Button>
             <HorizontalSpace />
             <Button
                 mode='contained'
@@ -64,6 +64,7 @@ export default function Index() {
                 />
                 <Button mode='contained' onPress={() => formik.handleSubmit()}>Submit</Button>
             </View>
+
         </View>
     )
 }

@@ -2,8 +2,8 @@ import React, { useEffect, useRef } from 'react';
 import { View, StyleSheet, Animated, Easing } from 'react-native';
 
 interface SkeletonProps {
-    width: number | Animated.Value | Animated.AnimatedInterpolation<string | number> | "auto" | `${number}%` | Animated.WithAnimatedObject<Animated.AnimatedNode> | null | undefined;
-    height: number | Animated.Value | Animated.AnimatedInterpolation<string | number> | "auto" | `${number}%` | Animated.WithAnimatedObject<Animated.AnimatedNode> | null | undefined;
+    width?: number | Animated.Value | Animated.AnimatedInterpolation<string | number> | "auto" | `${number}%` | Animated.WithAnimatedObject<Animated.AnimatedNode> | null | undefined;
+    height?: number | Animated.Value | Animated.AnimatedInterpolation<string | number> | "auto" | `${number}%` | Animated.WithAnimatedObject<Animated.AnimatedNode> | null | undefined;
     borderRadius?: number;
     duration?: number;
 }
