@@ -32,7 +32,7 @@ export default function Index() {
     return (
         <View style={{ height: "100%", alignItems: "center", justifyContent: "center", padding: 10 }}>
             {/* <AssetSvg.Ruby width={100} height={100} /> */}
-            <Text variant='headlineLarge'>Anh có tất cả, nhưng lại thiếu em</Text>
+            <Text variant='bodyMedium'>Anh có tất cả, nhưng lại thiếu em</Text>
             {/* <Button
                 mode='contained'
                 onPress={async () => {
