@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ScrollView, RefreshControl, ScrollViewProps } from 'react-native';
+import { RefreshControl, ScrollView,  ScrollViewProps } from 'react-native';
 
 interface RefreshScrollViewProps extends ScrollViewProps {
     onRefresh: () => Promise<void>;

@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useRef, ReactElement } from 'react';
-import { View, ScrollView, ActivityIndicator, Text, NativeScrollEvent, NativeSyntheticEvent, ViewStyle, StyleProp, Animated, RefreshControl } from 'react-native';
-import LoadingView from '../LoadingView/LoadingView';
-import FadeTransition from '../FadeTransition/FadeTransition';
+import { NativeScrollEvent, NativeSyntheticEvent, ViewStyle, StyleProp, Animated, RefreshControl } from 'react-native';
 
 interface InfiniteScrollViewProps<T> {
     fetch: (page: number) => { data: T[], reset?: boolean } | Promise<{ data: T[], reset?: boolean }>;

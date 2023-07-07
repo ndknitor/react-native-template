@@ -6,6 +6,7 @@ import Index from './pages/Index';
 import About from './pages/public/About';
 import useAuthorizeInit from './libs/hook/useAuthorizeInit';
 import { ActivityIndicator } from 'react-native-paper';
+import useInit from './context/useInit';
 
 const Stack = createStackNavigator();
 export type AppScreens = {
@@ -19,6 +20,7 @@ export type AppScreens = {
 function StackScreens() {
   const { initLoading } = useAuth();
   useAuthorizeInit();
+  useInit();
   return (
     <>
       {
