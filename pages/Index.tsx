@@ -5,14 +5,15 @@ import useRouter from '../libs/hook/useRouter';
 import { useFormik } from 'formik';
 import appxios, { InterceptorParams } from '../components/AxiosInterceptor';
 import SignInRequest from '../objects/requests/SignInRequest';
+import { ActivityIndicator, Button, Text } from 'react-native-paper';
+import InfiniteScrollView from '../components/InfiniteScrollView/InfiniteScrollView';
+import { sleep } from '../libs/functions';
 import HorizontalSpace from '../components/HorizontalSpace/HorizontalSpace';
 import ThemeTextInput from '../components/ThemeTextInput/ThemeTextInput';
-import AssetSvg from '../assets/svgs';
-import { Button, Text } from 'react-native-paper';
-import languages from '../utils/language';
-import LoadingView from '../components/LoadingView/LoadingView';
-import Skeleton from '../components/Skeleton/Skeleton';
-
+interface Item {
+    id: number;
+    name: string;
+}
 export default function Index() {
     const { navigate } = useRouter();
     const formik = useFormik({
@@ -33,7 +34,7 @@ export default function Index() {
         <View style={{ height: "100%", alignItems: "center", justifyContent: "center", padding: 10 }}>
             {/* <AssetSvg.Ruby width={100} height={100} /> */}
             <Text variant='bodyMedium'>Anh có tất cả, nhưng lại thiếu em</Text>
-            {/* <Button
+            <Button
                 mode='contained'
                 onPress={async () => {
                     // await appxios.get("", {
@@ -63,7 +64,7 @@ export default function Index() {
                     secureTextEntry
                 />
                 <Button mode='contained' onPress={() => formik.handleSubmit()}>Submit</Button>
-            </View> */}
+            </View>
 
         </View>
     )
