@@ -24,7 +24,7 @@ export default function useLocalStorage<T>(key: string, initialValue: T, debounc
         } catch (error) {
             console.log('Error saving data to AsyncStorage:', error);
         }
-    }, [key, value]);
+    }, [key, debounce]);
 
-    return [debounce, setValue];
+    return [value, setValue];
 }
