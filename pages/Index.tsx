@@ -37,11 +37,11 @@ export default function Index() {
             <Button
                 mode='contained'
                 onPress={async () => {
-                    // await appxios.get("", {
-                    //     params: {
-                    //         loadingLock: true
-                    //     } as InterceptorParams
-                    // });
+                    await appxios.get("", {
+                        loadAction: {
+                            loadingLock: true
+                        }
+                    });
                     Toast.show("Dit me may");
                 }} >Click</Button>
             <HorizontalSpace />
