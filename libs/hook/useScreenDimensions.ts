@@ -3,7 +3,6 @@ import { ScaledSize, Dimensions } from 'react-native';
 
 const useScreenDimensions = (): ScaledSize => {
     const [screenDimensions, setScreenDimensions] = useState(Dimensions.get('window'));
-
     useEffect(() => {
         const handleDimensionsChange = ({ window }: { window: ScaledSize }) => {
             setScreenDimensions(window);
