@@ -67,7 +67,6 @@ export function AxiosInterceptor({ children }: PropsWithChildren) {
             return response;
         }
         const onResponseError = (error: AxiosError) => {
-            console.log("asdasdasdas", error);
             setLoading(false);
             const { loadAction } = error.config;
             if (loadAction) {
