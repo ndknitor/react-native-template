@@ -32,9 +32,7 @@ export function useAxiosLoading() {
 export function AxiosInterceptor({ children }: PropsWithChildren) {
     const [loading, setLoading] = useState(false);
     const [lockLoading, setLockLoading] = useState(false);
-    useEffect(() => {
-        console.log(API_BASE_URL);
-        
+    useEffect(() => {        
         const beforeRequest = (config: AxiosRequestConfig) => {
             setLoading(true);
             const { loadAction } = config;
