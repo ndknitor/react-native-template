@@ -6,7 +6,7 @@
     "android": "react-native run-android",
     "build-android": "cd android && ./gradlew assembleRelease",
     "clean-android": "cd android && ./gradlew clean",
-    "build:ipa": "react-native run-ios --configuration Release && xcodebuild -workspace KNTemplate.xcworkspace -scheme KNTemplate -configuration Release -archivePath KNTemplate.xcarchive archive -quiet && xcodebuild -exportArchive -archivePath KNTemplate.xcarchive -exportOptionsPlist exportOptions.plist -exportPath KNTemplate.ipa",
+    "build:ipa": "react-native run-ios --configuration Release && xcodebuild -workspace kntemplate.xcworkspace -scheme kntemplate -configuration Release -archivePath kntemplate.xcarchive archive -quiet && xcodebuild -exportArchive -archivePath kntemplate.xcarchive -exportOptionsPlist exportOptions.plist -exportPath kntemplate.ipa",
     "build-ios": "cd ios && pod install && xcodebuild -workspace YourProjectName.xcworkspace -scheme YourSchemeName -configuration Release",
     "clean-ios": "cd ios && rm -rf build && rm -rf Pods && rm -rf *.xcworkspace && rm -rf Podfile.lock && rm -rf *.xcworkspace && rm -rf *.xcuserdata",
     "clean": "yarn clean-android && yarn clean-ios",
