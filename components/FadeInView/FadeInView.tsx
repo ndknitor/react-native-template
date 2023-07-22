@@ -1,19 +1,31 @@
 import React, { useState } from 'react'
 import FadeTransition from '../FadeTransition/FadeTransition'
 import useEffectOnce from '../../libs/hook/useEffectOnce';
-import { ViewProps } from 'react-native';
+import { Animated, ViewProps } from 'react-native';
 interface FadeInViewProps extends ViewProps {
     duration?: number;
 }
 function FadeInView(props: FadeInViewProps) {
-    const [showed, setShowed] = useState(false);
+    const deafultDuration = 300;
+    const [opacity] = useState(new Animated.Value(0));
+    const animationShow = Animated.timing(opacity, {
+        toValue: 1,
+        useNativeDriver: true,
+        duration: props.duration || deafultDuration
+    });
     useEffectOnce(() => {
-        setTimeout(() => setShowed(true), 300);
-    })
+        setTimeout(() => animationShow.start(), 300);
+    });
     return (
-        <FadeTransition {...props} showed={showed} duration={props.duration || 300}>
+        <Animated.View
+            {...props}
+            style={Object.assign({}, props.style,
+                {
+                    opacity: opacity,
+                }
+            )}>
             {props.children}
-        </FadeTransition>
+        </Animated.View>
     )
 }
 
