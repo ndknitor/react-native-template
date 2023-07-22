@@ -1,16 +1,13 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { View } from 'react-native'
 import Toast from 'react-native-root-toast';
 import useRouter from '../libs/hook/useRouter';
 import { useFormik } from 'formik';
-import appxios, { InterceptorParams } from '../components/AxiosInterceptor';
+import appxios from '../components/AxiosInterceptor';
 import SignInRequest from '../objects/requests/SignInRequest';
-import { ActivityIndicator, Button, Text } from 'react-native-paper';
-import InfiniteScrollView from '../components/InfiniteScrollView/InfiniteScrollView';
-import { sleep } from '../libs/functions';
+import { Button, Text } from 'react-native-paper';
 import HorizontalSpace from '../components/HorizontalSpace/HorizontalSpace';
 import ThemeTextInput from '../components/ThemeTextInput/ThemeTextInput';
-import FadeInView from '../components/FadeInView/FadeInView';
 interface Item {
     id: number;
     name: string;
@@ -33,11 +30,8 @@ export default function Index() {
     });
     return (
         <View style={{ height: "100%", alignItems: "center", justifyContent: "center", padding: 10 }}>
-            <FadeInView>
-                <View style={{ backgroundColor : "red", width : 90, height : 90}}/>
-            </FadeInView>
             {/* <AssetSvg.Ruby width={100} height={100} /> */}
-            {/* <Text variant='titleLarge'>Anh có tất cả, nhưng lại thiếu em</Text>
+            <Text variant='titleLarge'>Anh có tất cả, nhưng lại thiếu em</Text>
             <Button
                 mode='contained'
                 onPress={async () => {
@@ -68,7 +62,7 @@ export default function Index() {
                     secureTextEntry
                 />
                 <Button mode='contained' onPress={() => formik.handleSubmit()}>Submit</Button>
-            </View> */}
+            </View>
 
         </View>
     )
