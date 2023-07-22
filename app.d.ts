@@ -1,15 +1,20 @@
 
-declare module '@env' {
-    export const API_BASE_URL: string;
-    export const REQUEST_TIMEOUT: number;
-    export const ONESIGNAL_APP_ID: string;
-}
+import { AxiosRequestConfig } from 'axios';
+import { InterceptorParams } from './components/AxiosInterceptor';
+
 declare module '*.png' {
     const value: ImageSourcePropType;
     export default value;
 }
-
 declare module '*.jpg' {
     const value: ImageSourcePropType;
     export default value;
+}
+declare module 'axios' {
+    export interface AxiosRequestConfig {
+        loadAction?: InterceptorParams;
+    }
+    export interface InternalAxiosRequestConfig<any> {
+        loadAction?: InterceptorParams;
+    }
 }
