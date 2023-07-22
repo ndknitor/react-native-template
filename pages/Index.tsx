@@ -10,6 +10,7 @@ import InfiniteScrollView from '../components/InfiniteScrollView/InfiniteScrollV
 import { sleep } from '../libs/functions';
 import HorizontalSpace from '../components/HorizontalSpace/HorizontalSpace';
 import ThemeTextInput from '../components/ThemeTextInput/ThemeTextInput';
+import FadeInView from '../components/FadeInView/FadeInView';
 interface Item {
     id: number;
     name: string;
@@ -32,8 +33,11 @@ export default function Index() {
     });
     return (
         <View style={{ height: "100%", alignItems: "center", justifyContent: "center", padding: 10 }}>
+            <FadeInView>
+                <View style={{ backgroundColor: "red", width: 90, height: 90 }} />
+            </FadeInView>
             {/* <AssetSvg.Ruby width={100} height={100} /> */}
-            <Text variant='titleLarge'>Anh có tất cả, nhưng lại thiếu em</Text>
+            {/* <Text variant='titleLarge'>Anh có tất cả, nhưng lại thiếu em</Text>
             <Button
                 mode='contained'
                 onPress={async () => {
@@ -64,7 +68,7 @@ export default function Index() {
                     secureTextEntry
                 />
                 <Button mode='contained' onPress={() => formik.handleSubmit()}>Submit</Button>
-            </View>
+            </View> */}
 
         </View>
     )

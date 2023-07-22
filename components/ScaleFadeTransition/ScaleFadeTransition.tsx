@@ -10,7 +10,7 @@ interface ScaleFadeTransitionProps extends ViewProps {
 }
 
 function ScaleFadeTransition(props: ScaleFadeTransitionProps) {
-  const defaultDuration = 600;
+  const defaultDuration = 300;
 
   const [display, setDisplay] = useState(props.initShow || false);
   const [opacity] = useState(new Animated.Value(1));
