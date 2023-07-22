@@ -34,7 +34,7 @@ export default function Index() {
     return (
         <View style={{ height: "100%", alignItems: "center", justifyContent: "center", padding: 10 }}>
             <FadeInView>
-                <View style={{ backgroundColor: "red", width: 90, height: 90 }} />
+                <View style={{ backgroundColor : "red", width : 90, height : 90}}/>
             </FadeInView>
             {/* <AssetSvg.Ruby width={100} height={100} /> */}
             {/* <Text variant='titleLarge'>Anh có tất cả, nhưng lại thiếu em</Text>
