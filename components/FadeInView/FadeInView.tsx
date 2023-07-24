@@ -14,7 +14,7 @@ function FadeInView(props: FadeInViewProps) {
         duration: props.duration || deafultDuration
     });
     useEffectOnce(() => {
-        setTimeout(() => animationShow.start(), 300);
+        setTimeout(() => animationShow.start(), 100);
     });
     return (
         <Animated.View

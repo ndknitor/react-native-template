@@ -1,13 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { View } from 'react-native'
 import Toast from 'react-native-root-toast';
 import useRouter from '../libs/hook/useRouter';
 import { useFormik } from 'formik';
-import appxios from '../components/AxiosInterceptor';
+import appxios, { InterceptorParams } from '../components/AxiosInterceptor';
 import SignInRequest from '../objects/requests/SignInRequest';
-import { Button, Text } from 'react-native-paper';
+import { ActivityIndicator, Button, Text } from 'react-native-paper';
+import InfiniteScrollView from '../components/InfiniteScrollView/InfiniteScrollView';
+import { sleep } from '../libs/functions';
 import HorizontalSpace from '../components/HorizontalSpace/HorizontalSpace';
 import ThemeTextInput from '../components/ThemeTextInput/ThemeTextInput';
+import ScaleFadeTransition from '../components/ScaleFadeTransition/ScaleFadeTransition';
+import FadeInView from '../components/FadeInView/FadeInView';
+import ZoomInView from '../components/ZoomInView/ZoomInView';
+import Animated, { FadeIn, ZoomIn } from 'react-native-reanimated';
 interface Item {
     id: number;
     name: string;
@@ -28,8 +34,11 @@ export default function Index() {
             });
         },
     });
+    const [showed, setShowed] = useState(true);
     return (
-        <View style={{ height: "100%", alignItems: "center", justifyContent: "center", padding: 10 }}>
+        <Animated.View entering={ZoomIn} style={{ height: "100%", alignItems: "center", justifyContent: "center", padding: 10 }}>
+            <View style={{ backgroundColor: "red", height: 90, width: 90 }}>
+            </View>
             {/* <AssetSvg.Ruby width={100} height={100} /> */}
             <Text variant='titleLarge'>Anh có tất cả, nhưng lại thiếu em</Text>
             <Button
@@ -63,7 +72,6 @@ export default function Index() {
                 />
                 <Button mode='contained' onPress={() => formik.handleSubmit()}>Submit</Button>
             </View>
-
-        </View>
+        </Animated.View>
     )
 }
