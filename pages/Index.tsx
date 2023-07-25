@@ -36,7 +36,7 @@ export default function Index() {
     });
     const [showed, setShowed] = useState(true);
     return (
-        <Animated.View entering={ZoomIn} style={{ height: "100%", alignItems: "center", justifyContent: "center", padding: 10 }}>
+        <Animated.View entering={ZoomIn.duration(1200)} style={{ height: "100%", alignItems: "center", justifyContent: "center", padding: 10 }}>
             <View style={{ backgroundColor: "red", height: 90, width: 90 }}>
             </View>
             {/* <AssetSvg.Ruby width={100} height={100} /> */}
