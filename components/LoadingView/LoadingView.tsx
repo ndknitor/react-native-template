@@ -15,27 +15,31 @@ const LoadingView: React.FC<LoadingViewProps> = (props) => {
     const duration = 100;
     useEffect(() => {
         if (props.loading) {
-            Animated.timing(placeholderFadeAnim, {
-                toValue: 1,
-                duration: props.duration || duration,
-                useNativeDriver: true,
-            }).start();
-            Animated.timing(contentFadeAnim, {
-                toValue: 0,
-                duration: props.duration || duration,
-                useNativeDriver: true,
-            }).start();
+            Animated.parallel([
+                Animated.timing(placeholderFadeAnim, {
+                    toValue: 1,
+                    duration: props.duration || duration,
+                    useNativeDriver: true,
+                }),
+                Animated.timing(contentFadeAnim, {
+                    toValue: 0,
+                    duration: props.duration || duration,
+                    useNativeDriver: true,
+                })
+            ]);
         } else {
-            Animated.timing(contentFadeAnim, {
-                toValue: 1,
-                duration: props.duration || duration,
-                useNativeDriver: true,
-            }).start();
-            Animated.timing(placeholderFadeAnim, {
-                toValue: 0,
-                duration: props.duration || duration,
-                useNativeDriver: true,
-            }).start();
+            Animated.parallel([
+                Animated.timing(contentFadeAnim, {
+                    toValue: 1,
+                    duration: props.duration || duration,
+                    useNativeDriver: true,
+                }),
+                Animated.timing(placeholderFadeAnim, {
+                    toValue: 0,
+                    duration: props.duration || duration,
+                    useNativeDriver: true,
+                })
+            ]);
         }
     }, [placeholderFadeAnim, contentFadeAnim, props.loading]);
 
