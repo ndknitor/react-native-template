@@ -1,3 +1,11 @@
+export function toJsonString(obj: Object) {
+    return JSON.stringify(obj);
+}
+
+export function toType<T>(str: string) {
+    return JSON.parse(str) as T;
+}
+
 export function formatNumber(num: number | undefined) {
     if (num) {
         return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.")
