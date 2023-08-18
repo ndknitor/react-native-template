@@ -1,3 +1,28 @@
+export function toFormData(obj: any, formData = new FormData(), namespace = '') {
+    for (const key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            const property = obj[key];
+            if (property instanceof File) {
+                formData.append(namespace + key, property);
+            } else if (Array.isArray(property)) {
+                property.forEach((item, index) => {
+                    const itemNamespace = `${namespace + key}[${index}].`;
+                    if (typeof item === 'object' && item !== null) {
+                        toFormData(item, formData, itemNamespace);
+                    } else {
+                        formData.append(itemNamespace, item);
+                    }
+                });
+            } else if (typeof property === 'object' && property !== null) {
+                toFormData(property, formData, namespace + key + '.');
+            } else {
+                formData.append(namespace + key, property);
+            }
+        }
+    }
+    return formData;
+}
+
 export function toJsonString(obj: Object) {
     return JSON.stringify(obj);
 }
