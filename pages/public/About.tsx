@@ -6,9 +6,24 @@ import appxios from '../../components/AxiosInterceptor'
 import Toast from 'react-native-root-toast'
 import ThemeTextInput from '../../components/ThemeTextInput/ThemeTextInput'
 import { useFormik } from 'formik'
-import SignInRequest from '../../objects/requests/SignInRequest'
+import * as Yup from 'yup';
+
 
 export default function About() {
+
+  const SignInRequest = Yup.object().shape({
+    email: Yup
+      .string()
+      .email('Invalid email')
+      .required('Email is required')
+      .default(""),
+    password: Yup
+      .string()
+      .min(6, 'Password must be at least 6 characters')
+      .required('Password is required')
+      .default("")
+  });
+
   const formik = useFormik({
     initialValues: SignInRequest.getDefault(),
     validationSchema: SignInRequest,
@@ -23,6 +38,7 @@ export default function About() {
       });
     },
   });
+  
   return (
     <Animated.View entering={FadeInDown.duration(600)} style={{ width: "100%", height: "100%" }}>
       <View style={{ rowGap: 10, padding: 15, width: "100%", height: "100%", alignItems: "center", justifyContent: "center" }}>
