@@ -23,6 +23,21 @@ export function toFormData(obj: any, formData = new FormData(), namespace = '') 
     return formData;
 }
 
+export function getPropertyName(propertyFunction: Function): string {
+    const token = propertyFunction.toString().split('.');
+    return token[token.length - 1];
+}
+
+export function toQueryString(obj: any) {
+    const url = new URLSearchParams();
+    for (const key in obj) {
+        const value = obj[key];
+        if (value !== undefined && value !== null)
+            url.append(key, value);
+    }
+    return `?${url.toString()}`;
+}
+
 export function toJsonString(obj: Object) {
     return JSON.stringify(obj);
 }
