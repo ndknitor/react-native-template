@@ -1,15 +1,16 @@
-import React, { useState } from 'react'
-import { ViewProps } from 'react-native';
-import Animated, { FadeIn } from 'react-native-reanimated';
+import React from 'react'
 import { randomInt } from '../../libs/functions';
-interface FadeInViewProps extends ViewProps {
+import { View } from 'react-native-reanimated/lib/typescript/Animated';
+import { AnimateProps, FadeIn } from 'react-native-reanimated';
+import { ViewProps } from 'react-native';
+interface FadeInViewProps extends AnimateProps<ViewProps> {
     duration?: number;
 }
 function FadeInView(props: FadeInViewProps) {
     return (
-        <Animated.View {...props} entering={FadeIn.duration(randomInt(200, 1200))} >
+        <View {...props} entering={FadeIn.duration(randomInt(200, 1200))} >
             {props.children}
-        </Animated.View>
+        </View>
     )
 }
 
