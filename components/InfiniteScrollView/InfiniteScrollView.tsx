@@ -1,81 +1,89 @@
-import React, { useState, useEffect, useRef, ReactElement } from 'react';
-import { NativeScrollEvent, NativeSyntheticEvent, ViewStyle, StyleProp, Animated, RefreshControl } from 'react-native';
+import React, { useState, ReactElement, forwardRef, useImperativeHandle, Fragment } from 'react';
+import {
+    NativeScrollEvent,
+    NativeSyntheticEvent,
+    ViewStyle,
+    StyleProp,
+    RefreshControl,
+    ScrollView,
+} from 'react-native';
+import useAsyncEffect from 'use-async-effect';
 
 interface InfiniteScrollViewProps<T> {
-    fetch: (page: number) => { data: T[], reset?: boolean } | Promise<{ data: T[], reset?: boolean }>;
+    fetch: (page: number) => T[] | Promise<T[]>;
     placeHolderView?: ReactElement;
-    dataView: (data: T) => ReactElement;
+    dataView: (data: T, index: number) => ReactElement;
     style?: StyleProp<ViewStyle>;
-    onRefresh?: () => void | Promise<void>;
 }
-function InfiniteScrollView<T>(props: InfiniteScrollViewProps<T>) {
+
+export interface InfiniteScrollViewRef {
+    fetch: () => void;
+}
+
+const InfiniteScrollView = forwardRef<InfiniteScrollViewRef, InfiniteScrollViewProps<any>>(function <T = any>(
+    props: InfiniteScrollViewProps<T>,
+    ref: React.Ref<InfiniteScrollViewRef>
+) {
     const [data, setData] = useState<T[]>([]);
     const [page, setPage] = useState(1);
     const [isLoading, setIsLoading] = useState(false);
-    const [refreshing, setRefreshing] = useState(false);
+    const [refreshing] = useState(false);
 
     const handleRefresh = async () => {
-        setRefreshing(true);
-        props.onRefresh && await props.onRefresh();
-        setRefreshing(false);
+        await fetchFromProps();
     };
-    const scrollAnim = useRef(new Animated.Value(0)).current;
-    useEffect(() => {
-        // Animation configuration
-        Animated.timing(scrollAnim, {
-            toValue: 1,
-            duration: 500, // Adjust this value as per your preference
-            useNativeDriver: false, // `height` property requires non-native driver
-        }).start();
-    }, [data]);
 
-    const interpolatedHeight = scrollAnim.interpolate({
-        inputRange: [0, 1],
-        outputRange: ['0%', '100%'],
-        extrapolate: 'clamp',
-    });
-
-    useEffect(() => {
-        fetchData();
+    useAsyncEffect(async () => {
+        await fetchData();
     }, []);
 
     const fetchData = async () => {
         setIsLoading(true);
-        const { data, reset } = await props.fetch(page);
-        if (reset) {
-            setData(data);
-            setPage(1);
-        }
-        else {
-            setData(prevData => [...prevData, ...data]);
-            setPage(prevPage => prevPage + 1);
-        }
+        const fetchedData = await props.fetch(page);
+        setData(prevData => [...prevData, ...fetchedData]);
+        setPage(prevPage => prevPage + 1);
         setIsLoading(false);
     };
 
     const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
         const { layoutMeasurement, contentOffset, contentSize } = event.nativeEvent;
         const isScrolledToBottom =
-            layoutMeasurement.height + contentOffset.y >= contentSize.height - 50;
+            layoutMeasurement.height + contentOffset.y >= contentSize.height - 100;
 
         if (isScrolledToBottom && !isLoading) {
             fetchData();
         }
     };
 
+    const fetchFromProps = async () => {
+        setIsLoading(true);
+        setData([]);
+        const fetchedData = await props.fetch(1);
+        setData(fetchedData);
+        setPage(2);
+        setIsLoading(false);
+    };
+
+    // Expose the fetchFromProps function to the parent component through the ref
+    useImperativeHandle(ref, () => ({
+        fetch: fetchFromProps,
+    }));
+
     return (
-        <Animated.ScrollView
+        <ScrollView
             refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
             }
-            style={[props.style, { height: interpolatedHeight }]}
+            style={[props.style]}
             onScroll={handleScroll}>
-            {data.map(item =>
-                props.dataView(item)
+            {data.map((item, index) =>
+                <Fragment key={index}>
+                    {props.dataView(item, index)}
+                </Fragment>
             )}
             {isLoading && props.placeHolderView}
-        </Animated.ScrollView>
+        </ScrollView>
     );
-};
+});
 
 export default InfiniteScrollView;

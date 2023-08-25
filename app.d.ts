@@ -1,6 +1,7 @@
 
-import { AxiosRequestConfig } from 'axios';
+import { AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios';
 import { InterceptorParams } from './components/AxiosInterceptor';
+import { ImageSourcePropType } from 'react-native';
 
 declare module '*.png' {
     const value: ImageSourcePropType;
@@ -14,7 +15,7 @@ declare module 'axios' {
     export interface AxiosRequestConfig {
         loadAction?: InterceptorParams;
     }
-    export interface InternalAxiosRequestConfig<any> {
+    export interface InternalAxiosRequestConfig {
         loadAction?: InterceptorParams;
     }
 }

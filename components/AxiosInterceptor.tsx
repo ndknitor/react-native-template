@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import { Dispatch, PropsWithChildren, SetStateAction, createContext, useContext, useEffect, useState } from 'react'
 import Toast from 'react-native-root-toast';
 import { API_BASE_URL, REQUEST_TIMEOUT } from "@env";
@@ -33,7 +33,7 @@ export function AxiosInterceptor({ children }: PropsWithChildren) {
     const [loading, setLoading] = useState(false);
     const [lockLoading, setLockLoading] = useState(false);
     useEffect(() => {
-        const beforeRequest = (config: AxiosRequestConfig) => {
+        const beforeRequest = (config: InternalAxiosRequestConfig<any>) => {
             setLoading(true);
             const { loadAction } = config;
             if (loadAction) {
@@ -66,7 +66,7 @@ export function AxiosInterceptor({ children }: PropsWithChildren) {
         }
         const onResponseError = (error: AxiosError) => {
             setLoading(false);
-            const { loadAction } = error.config;
+            const loadAction = error.config?.loadAction;
             if (loadAction) {
                 if (loadAction.loadingLock) {
                     setLockLoading(false);
