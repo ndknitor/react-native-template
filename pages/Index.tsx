@@ -10,31 +10,14 @@ interface Item {
 }
 export default function Index() {
     const { navigate } = useRouter();
-    const fetchData = async (page: number) => {
-        const response = await appxios.get<number[]>(`http://13.212.116.185:5000/main?Page=${page}`);
-        return response.data;
-    }
+    const [search, setSearch] = useState("");
+
     const infiniteScrollViewRef = useRef<InfiniteScrollViewRef>(null);
     return (
         <View style={{ alignItems: "center", justifyContent: "center", width: "100%", height: "100%" }}>
-            {/* <Button mode='contained' onPress={() => navigate("About")}>About</Button> */}
+            <Button mode='contained' onPress={() => navigate("About")}>About</Button>
             {/* <AssetSvg.Ruby width={100} height={100} /> */}
             {/* <Text variant='titleLarge'>Anh có tất cả, nhưng lại thiếu em</Text>*/}
-            <Button onPress={() => {
-                infiniteScrollViewRef.current?.fetch();
-            }}>Search</Button>
-            <InfiniteScrollView
-                style={{ width: "100%" }}
-                ref={infiniteScrollViewRef}
-                fetch={fetchData}
-                dataView={(item: number) =>
-                    <Text>{item}</Text>
-                }
-                placeHolderView={
-                    <>
-                        <ActivityIndicator size={120} />
-                    </>}
-            />
         </View>
     )
 }
