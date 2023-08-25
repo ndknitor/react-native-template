@@ -29,7 +29,13 @@ export function getPropertyName(propertyFunction: Function): string {
 }
 
 export function toQueryString(obj: any) {
-    const url = new URLSearchParams(obj);
+    const url = new URLSearchParams();
+    for (const key in obj)
+    {
+        if (key !== undefined && key !== null) {
+            url.append(key, obj[key]);
+        }
+    }
     return `?${url.toString()}`;
 }
 
