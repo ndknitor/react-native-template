@@ -30,20 +30,19 @@ class Storage {
 }
 const sessionStorage = new Storage();
 
-const useSessionStorage = <T>(key: string, initialValue: T, debounceDelay = 500): [T, (value: T) => void] => {
+const useSessionStorage = <T>(key: string, initialValue: T): [T, (value: T) => void] => {
     const [value, setValue] = useState<T>(initialValue);
-    const debounce = useDebounce<T>(value, debounceDelay);
 
     useEffect(() => {
         const storedValue = sessionStorage.getItem(key);
-        if (storedValue !== null) {
+        if (storedValue !== null || storedValue != undefined) {
             setValue(JSON.parse(storedValue));
         }
     }, [key]);
 
     useEffect(() => {
         sessionStorage.setItem(key, JSON.stringify(value));
-    }, [key, debounce]);
+    }, [key]);
 
     return [value, setValue];
 };

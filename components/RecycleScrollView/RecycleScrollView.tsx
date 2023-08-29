@@ -5,8 +5,6 @@ import {
     NativeSyntheticEvent,
     ViewStyle,
     StyleProp,
-    RefreshControl,
-    ScrollView,
     FlatList,
 } from 'react-native';
 import useAsyncEffect from 'use-async-effect';
@@ -22,23 +20,18 @@ interface RecycleScrollViewProps<T> {
 }
 
 export interface RecycleScrollViewRef {
-    fetch: () => void;
+    fetch: (page: number) => void | Promise<void>;
 }
 
 const RecycleScrollView = forwardRef<RecycleScrollViewRef, RecycleScrollViewProps<any>>(function <T = any>(
     props: RecycleScrollViewProps<T>,
     ref: React.Ref<RecycleScrollViewRef>
 ) {
+    const scrollViewRef = useRef<FlatList>(null);
+
     const [data, setData] = useState<T[]>([]);
     const [page, setPage] = useState(1);
     const [isLoading, setIsLoading] = useState(false);
-    const [refreshing] = useState(false);
-
-    const scrollViewRef = useRef<FlatList>(null);
-
-    const handleRefresh = async () => {
-        await fetchFromProps();
-    };
 
     useAsyncEffect(async () => {
         await fetchData(1, 0);
@@ -70,8 +63,8 @@ const RecycleScrollView = forwardRef<RecycleScrollViewRef, RecycleScrollViewProp
         }
     };
 
-    const fetchFromProps = async () => {
-        setPage(1);
+    const fetchFromProps = async (page: number) => {
+        await fetchData(page, 0);
     };
 
     // Expose the fetchFromProps function to the parent component through the ref
@@ -90,9 +83,6 @@ const RecycleScrollView = forwardRef<RecycleScrollViewRef, RecycleScrollViewProp
                 </Fragment>
             )}
             onScroll={handleScroll}
-            refreshControl={
-                <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
-            }
             ListHeaderComponent={
                 <Fragment>
                     {isLoading && props.placeHolderView}
