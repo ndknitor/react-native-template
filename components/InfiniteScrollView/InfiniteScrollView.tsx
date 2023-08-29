@@ -1,4 +1,4 @@
-import React, { useState, ReactElement, forwardRef, useImperativeHandle, Fragment } from 'react';
+import React, { useState, ReactElement, forwardRef, useImperativeHandle, Fragment, useRef } from 'react';
 import {
     NativeScrollEvent,
     NativeSyntheticEvent,
@@ -6,6 +6,7 @@ import {
     StyleProp,
     RefreshControl,
     ScrollView,
+    FlatList,
 } from 'react-native';
 import useAsyncEffect from 'use-async-effect';
 
@@ -14,6 +15,7 @@ interface InfiniteScrollViewProps<T> {
     placeHolderView?: ReactElement;
     dataView: (data: T, index: number) => ReactElement;
     style?: StyleProp<ViewStyle>;
+    maxPage: number;
 }
 
 export interface InfiniteScrollViewRef {
@@ -34,34 +36,29 @@ const InfiniteScrollView = forwardRef<InfiniteScrollViewRef, InfiniteScrollViewP
     };
 
     useAsyncEffect(async () => {
-        await fetchData();
+        await fetchData(1);
     }, []);
 
-    const fetchData = async () => {
+    const fetchData = async (page: number) => {
         setIsLoading(true);
-        const fetchedData = await props.fetch(page);
-        setData(prevData => [...prevData, ...fetchedData]);
-        setPage(prevPage => prevPage + 1);
+        const data = await props.fetch(page);
+        setData(prevData => [...prevData, ...data]);
+        setPage(page);
         setIsLoading(false);
     };
 
-    const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const handleScroll = async (event: NativeSyntheticEvent<NativeScrollEvent>) => {
         const { layoutMeasurement, contentOffset, contentSize } = event.nativeEvent;
-        const isScrolledToBottom =
-            layoutMeasurement.height + contentOffset.y >= contentSize.height - 100;
-
+        const isScrolledToBottom = layoutMeasurement.height + contentOffset.y >= contentSize.height - 10;
         if (isScrolledToBottom && !isLoading) {
-            fetchData();
+            if (page < props.maxPage) {
+                fetchData(page + 1);
+            }
         }
     };
 
     const fetchFromProps = async () => {
-        setIsLoading(true);
-        setData([]);
-        const fetchedData = await props.fetch(1);
-        setData(fetchedData);
-        setPage(2);
-        setIsLoading(false);
+        setPage(1);
     };
 
     // Expose the fetchFromProps function to the parent component through the ref
@@ -70,19 +67,23 @@ const InfiniteScrollView = forwardRef<InfiniteScrollViewRef, InfiniteScrollViewP
     }));
 
     return (
-        <ScrollView
+        <FlatList
+            {...props}
+            data={data}
+            renderItem={(item) => (
+                <Fragment key={item.index}>
+                    {props.dataView(item.item, item.index)}
+                </Fragment>
+            )}
+            onScroll={handleScroll}
             refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
             }
-            style={[props.style]}
-            onScroll={handleScroll}>
-            {data.map((item, index) =>
-                <Fragment key={index}>
-                    {props.dataView(item, index)}
-                </Fragment>
-            )}
-            {isLoading && props.placeHolderView}
-        </ScrollView>
+            ListFooterComponent={
+                <Fragment>
+                    {isLoading && props.placeHolderView}
+                </Fragment>}>
+        </FlatList>
     );
 });
 

@@ -11,8 +11,6 @@ interface Item {
 export default function Index() {
     const { navigate } = useRouter();
     const [search, setSearch] = useState("");
-
-    const infiniteScrollViewRef = useRef<InfiniteScrollViewRef>(null);
     return (
         <View style={{ alignItems: "center", justifyContent: "center", width: "100%", height: "100%" }}>
             <Button mode='contained' onPress={() => navigate("About")}>About</Button>
