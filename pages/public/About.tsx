@@ -7,26 +7,16 @@ import Toast from 'react-native-root-toast'
 import ThemeTextInput from '../../components/ThemeTextInput/ThemeTextInput'
 import { useFormik } from 'formik'
 import * as Yup from 'yup';
+import SignInRequest from '../../objects/requests/SignInRequest'
 
 
 export default function About() {
 
-  const SignInRequest = Yup.object().shape({
-    email: Yup
-      .string()
-      .email('Invalid email')
-      .required('Email is required')
-      .default(""),
-    password: Yup
-      .string()
-      .min(6, 'Password must be at least 6 characters')
-      .required('Password is required')
-      .default("")
-  });
+  const signInRequest = SignInRequest("en");
 
   const formik = useFormik({
-    initialValues: SignInRequest.getDefault(),
-    validationSchema: SignInRequest,
+    initialValues: signInRequest.getDefault(),
+    validationSchema: signInRequest,
     onSubmit: (values) => {
       Toast.show('Địt mẹ mày', {
         duration: Toast.durations.LONG,
