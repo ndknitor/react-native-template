@@ -4,6 +4,7 @@
     "target": "ES6",
     "esModuleInterop": true,
     "jsx": "react",
-    "strict": true
+    "strict": true,
+    "resolveJsonModule": true
   }
 }

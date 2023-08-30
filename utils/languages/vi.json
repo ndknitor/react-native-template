@@ -1,0 +1,10 @@
+{
+    "appxios": {
+        "serverError": "Lỗi kết nối với máy chủ, vui lòng thử lại sau",
+        "internetError": "Lỗi kết nối mạng, vui lòng thử lại sau"
+    },
+    "index": {
+        "sampleToastButton": "Thử thông báo",
+        "sampleToastNotification": "Địt mẹ mày"
+    }
+}

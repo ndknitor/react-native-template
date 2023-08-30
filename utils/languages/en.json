@@ -1,0 +1,10 @@
+{
+    "appxios": {
+        "serverError": "Error connecting to the server, please try again later",
+        "internetError": "Network connection error, please try again later"
+    },
+    "index": {
+        "sampleToastButton": "Sample Toast",
+        "sampleToastNotification": "Fuck your mom"
+    }
+}
