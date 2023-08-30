@@ -1,12 +1,8 @@
-import React, { useRef, useState } from 'react'
+import React, { useState } from 'react'
 import { View } from 'react-native'
 import useRouter from '../libs/hook/useRouter';
-import { ActivityIndicator, Button, Text, TextInput } from 'react-native-paper';
-import { InfiniteScrollView } from 'react-native-kn-components';
-interface Item {
-    id: number;
-    name: string;
-}
+import { Button } from 'react-native-paper';
+
 export default function Index() {
     const { navigate } = useRouter();
     const [search, setSearch] = useState("");
