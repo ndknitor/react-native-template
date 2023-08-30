@@ -1,5 +1,3 @@
-
-import { AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios';
 import { InterceptorParams } from './components/AxiosInterceptor';
 import { ImageSourcePropType } from 'react-native';
 
