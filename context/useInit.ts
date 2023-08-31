@@ -1,7 +1,7 @@
-import useEffectOnce from "../libs/hook/useEffectOnce";
+import { useEffect } from "react";
 
 export default function useInit() {
-    useEffectOnce(() => {
+    useEffect(() => {
 
-    });
+    },[]);
 }

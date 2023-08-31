@@ -1,8 +1,8 @@
 import React, { PropsWithChildren, useContext, useEffect} from 'react';
 import { forbiddenRedirect } from '../utils/Redirect';
-import { AuthorizeContext } from './AuthorizeProvider';
 import useRouter from './hook/useRouter';
 import { AppScreens } from '../Routes';
+import { AuthorizeContext } from '../context/AuthorizeContextProvider';
 interface Props extends PropsWithChildren {
     forbiddenRedirect?: keyof AppScreens;
 }
