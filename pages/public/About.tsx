@@ -36,12 +36,11 @@ export default function About() {
         <Button
           mode='contained'
           onPress={async () => {
-            await appxios.get("", {
-              loadAction: {
-                loadingLock: true
-              }
-            });
-            Toast.show("Dit me may");
+            // await appxios.get("", {
+            //   loadAction: {
+            //     loadingLock: true
+            //   }
+            // });
           }} >Click</Button>
         <View style={{ width: "100%", rowGap: 10 }}>
           <ThemeTextInput
