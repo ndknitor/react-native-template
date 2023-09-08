@@ -12,11 +12,10 @@ import SignInRequest from '../../objects/requests/SignInRequest'
 
 export default function About() {
 
-  const signInRequest = SignInRequest("en");
 
   const formik = useFormik({
-    initialValues: signInRequest.getDefault(),
-    validationSchema: signInRequest,
+    initialValues: SignInRequest.getDefault(),
+    validationSchema: SignInRequest,
     onSubmit: (values) => {
       Toast.show('Địt mẹ mày', {
         duration: Toast.durations.LONG,
