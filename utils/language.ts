@@ -1,7 +1,11 @@
 import vi from './languages/vi.json';
 import en from './languages/en.json';
-const languages = {
-    ["vi"]: vi,
-    ["en"]: en
+type Languages ={
+    vi : typeof vi;
+    en : typeof en;
 };
-export default languages;
+const Languages : Languages = {
+    en : en,
+    vi : vi
+};
+export default Languages;
