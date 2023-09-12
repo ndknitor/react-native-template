@@ -1,7 +1,19 @@
 {
-    "appxios": {
+    "axios": {
         "serverError": "Lỗi kết nối với máy chủ, vui lòng thử lại sau",
         "internetError": "Lỗi kết nối mạng, vui lòng thử lại sau"
+    },
+    "validations": {
+        "signInRequest": {
+            "email": {
+                "required": "Vui lòng nhập email",
+                "email": "Email không hợp lệ"
+            },
+            "password": {
+                "required": "Vui lòng nhập mật khẩu",
+                "min": "Mật khẩu phải có ít nhất 6 kí tự"
+            }
+        }
     },
     "index": {
         "sampleToastButton": "Thử thông báo",
