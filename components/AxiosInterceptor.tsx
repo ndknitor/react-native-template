@@ -6,6 +6,8 @@ import colors from '../utils/colors';
 import React from 'react';
 import PageLoader from './PageLoader/PageLoader';
 import languages from '../utils/language';
+import { useGlobalContext } from '../context/GlobalContextProvider';
+import Message from '../libs/function/Message';
 const appxios = axios.create({
     baseURL: API_BASE_URL,
     timeout: REQUEST_TIMEOUT | 3000,
@@ -32,6 +34,7 @@ export function useAxiosLoading() {
 export function AxiosInterceptor({ children }: PropsWithChildren) {
     const [loading, setLoading] = useState(false);
     const [lockLoading, setLockLoading] = useState(false);
+    const { languages } = useGlobalContext();
     useEffect(() => {
         const beforeRequest = (config: InternalAxiosRequestConfig<any>) => {
             setLoading(true);
@@ -77,19 +80,12 @@ export function AxiosInterceptor({ children }: PropsWithChildren) {
             }
             let message = "";
             if (error.code == "ERR_NETWORK") {
-                message = languages["en"].appxios.serverError;
+                message = languages.axios.serverError;
             }
             else if (error.code == "ECONNABORTED") {
-                message = languages["en"].appxios.internetError;
+                message = languages.axios.internetError;
             }
-            Toast.show(message, {
-                duration: Toast.durations.SHORT,
-                position: Toast.positions.BOTTOM,
-                backgroundColor: colors.error,
-                animation: true,
-                hideOnPress: true,
-                delay: 0
-            });
+            Message.error(message);
             return Promise.reject(error);
         }
         appxios.interceptors.request.use(beforeRequest, requestError);

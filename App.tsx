@@ -27,13 +27,13 @@ import { RootSiblingParent } from 'react-native-root-siblings';
 function App(): JSX.Element {
   return (
     <RootSiblingParent>
-      <AxiosInterceptor>
-        <AuthorizeContextProvider>
-          <GlobalContextProvider>
+      <AuthorizeContextProvider>
+        <GlobalContextProvider>
+          <AxiosInterceptor>
             <Routes />
-          </GlobalContextProvider>
-        </AuthorizeContextProvider>
-      </AxiosInterceptor>
+          </AxiosInterceptor>
+        </GlobalContextProvider>
+      </AuthorizeContextProvider>
     </RootSiblingParent>
   );
 }

@@ -8,6 +8,7 @@ import ThemeTextInput from '../../components/ThemeTextInput/ThemeTextInput'
 import { useFormik } from 'formik'
 import * as Yup from 'yup';
 import SignInRequest from '../../objects/requests/SignInRequest'
+import Message from '../../libs/function/Message'
 
 
 export default function About() {
@@ -35,11 +36,11 @@ export default function About() {
         <Button
           mode='contained'
           onPress={async () => {
-            // await appxios.get("", {
-            //   loadAction: {
-            //     loadingLock: true
-            //   }
-            // });
+            await appxios.get("", {
+              loadAction: {
+                loadingLock: true
+              }
+            });
           }} >Click</Button>
         <View style={{ width: "100%", rowGap: 10 }}>
           <ThemeTextInput

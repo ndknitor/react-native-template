@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Animated, ViewProps } from 'react-native';
-import useEffectOnce from '../../libs/hook/useEffectOnce';
 interface ZoomInViewProps extends ViewProps {
     duration?: number;
 }
@@ -12,9 +11,9 @@ function ZoomInView(props: ZoomInViewProps) {
         useNativeDriver: true,
         duration: props.duration || deafultDuration
     });
-    useEffectOnce(() => {
+    useEffect(() => {
         setTimeout(() => animationShow.start(), 100);
-    });
+    },[]);
     return (
         <Animated.View
             {...props}
