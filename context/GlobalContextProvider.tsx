@@ -4,11 +4,13 @@ import Languages from "../utils/language";
 
 interface ContextProps {
     languages: typeof Languages.en;
+    iso: keyof Languages;
     setISO: Dispatch<SetStateAction<keyof Languages>>;
 }
 
 const GlobalContext = createContext<ContextProps>({
     languages: Languages.en,
+    iso: "en",
     setISO: (): keyof Languages => "en"
 })
 
@@ -16,7 +18,7 @@ export const GlobalContextProvider = ({ children }: PropsWithChildren) => {
     const [iso, setISO] = useState<keyof Languages>("en");
 
     return (
-        <GlobalContext.Provider value={{ setISO, languages: Languages[iso] }}>
+        <GlobalContext.Provider value={{ iso, setISO, languages: Languages[iso] }}>
             {children}
         </GlobalContext.Provider>
     )
