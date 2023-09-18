@@ -91,7 +91,7 @@ export function AxiosInterceptor({ children }: PropsWithChildren) {
         appxios.interceptors.request.use(beforeRequest, requestError);
         const interceptor = appxios.interceptors.response.use(onResponse, onResponseError);
         return () => appxios.interceptors.response.eject(interceptor);
-    }, [])
+    }, [languages])
     return (
         <AxiosLoadingContext.Provider value={{ loading }}>
             <PageLoader loading={lockLoading} />
