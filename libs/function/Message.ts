@@ -39,7 +39,7 @@ const Message = {
         Toast.show(message, {
             duration: Toast.durations.SHORT,
             position: Toast.positions.BOTTOM,
-            backgroundColor: "#b50000",
+            backgroundColor: "#cd0000",
             animation: true,
             hideOnPress: true,
             delay: 0,
