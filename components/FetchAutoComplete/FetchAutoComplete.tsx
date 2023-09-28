@@ -10,7 +10,7 @@ interface Option<T> {
 }
 
 interface FetchAutoCompleteProps<T> {
-    fetch: (query: string, page: number) => Promise<Option<T>[]>;
+    fetch: (query: string, page: number) => Promise<{ options: Option<T>[], hasMore: boolean }>;
     placeholder: string;
     onChange: (selectedOption: Option<T> | null) => void;
     debounce?: number | 600;
@@ -48,15 +48,13 @@ function FetchAutoComplete<T>(props: FetchAutoCompleteProps<T>) {
         const response = await props.fetch(inputValue, page);
         dataAnimation.reset();
         if (page === 1) {
-            setOptions(response);
+            setOptions(response.options);
         } else {
-            setOptions((prevOptions) => [...prevOptions, ...response]);
+            setOptions((prevOptions) => [...prevOptions, ...response.options]);
         }
         setTimeout(() => { }, 100);
         dataAnimation.start();
-        if (response.length === 0) {
-            hasMore.current = false;
-        }
+        hasMore.current = response.hasMore;
         setLoading(false);
     }
 
