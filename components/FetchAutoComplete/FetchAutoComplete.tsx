@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Animated, FlatList, Modal, Pressable, View } from 'react-native';
-import { ActivityIndicator, TextInput, Text, TouchableRipple } from 'react-native-paper';
+import { ActivityIndicator, TextInput, Text, TouchableRipple, HelperText } from 'react-native-paper';
 import { useDebounce } from 'usehooks-ts'
 import { useAsyncEffect } from 'use-async-effect';
 import Svg, { Path, SvgProps } from 'react-native-svg';
@@ -18,7 +18,9 @@ interface FetchAutoCompleteProps<T> {
     placeholder: string;
     onChange: (selectedOption: Option<T> | null) => void;
     debounce?: number | 600;
-    keyExtractor?: ((item: Option<T>, index: number) => string) | undefined
+    keyExtractor?: ((item: Option<T>, index: number) => string) | undefined;
+    helperText?: string;
+    error?: boolean;
 }
 
 function FetchAutoComplete<T>(props: FetchAutoCompleteProps<T>) {
@@ -30,7 +32,7 @@ function FetchAutoComplete<T>(props: FetchAutoCompleteProps<T>) {
     const hasMore = useRef(true);
 
     const inputDebounce = useDebounce(inputValue, 600);
-    const pageDebounce = useDebounce(page, 600);
+    const pageDebounce = useDebounce(page, 500);
 
     const opacity = useRef(new Animated.Value(0));
     const y = useRef(new Animated.Value(24));
@@ -50,14 +52,16 @@ function FetchAutoComplete<T>(props: FetchAutoCompleteProps<T>) {
     const fetchData = async () => {
         setLoading(true);
         const response = await props.fetch(inputValue, page);
-        dataAnimation.reset();
         if (page === 1) {
+            dataAnimation.reset();
             setOptions(response.options);
         } else {
             setOptions((prevOptions) => [...prevOptions, ...response.options]);
         }
         setTimeout(() => { }, 100);
-        dataAnimation.start();
+        if (page == 1) {
+            dataAnimation.start();
+        }
         hasMore.current = response.hasMore;
         setLoading(false);
     }
@@ -116,10 +120,15 @@ function FetchAutoComplete<T>(props: FetchAutoCompleteProps<T>) {
         props.onChange(null);
         animation.start();
     }
+    const openModal = () => {
+        dataAnimation.reset();
+        dataAnimation.start();
+        setModalVisible(true);
+    }
 
     return (
         <>
-            <TouchableRipple style={{ borderWidth: 2, width: "100%", height: 40, borderRadius: 8, borderColor: "gray" }} onPress={() => { dataAnimation.reset(); dataAnimation.start(); setModalVisible(true); }}>
+            <TouchableRipple style={{ borderWidth: 2, width: "100%", height: 40, borderRadius: 8, borderColor: "gray" }} onPress={openModal}>
                 <Animated.View style={{ marginTop: y.current, opacity: opacity.current }}>
                     <View style={{ width: "100%", height: "100%", flexDirection: "row" }}>
                         <View style={{ width: "88%", height: "100%", justifyContent: "center", paddingLeft: 10 }}>
@@ -127,6 +136,9 @@ function FetchAutoComplete<T>(props: FetchAutoCompleteProps<T>) {
                         </View>
                         <View style={{ width: 60, height: "100%", alignItems: "center", justifyContent: "center" }}>
                             {label === "" ? <ArrowDown width={30} height={30} /> : <Exit width={24} height={24} onPress={handleCancel} />}
+                        </View>
+                        <View style={{ marginTop: 5, width : "100%" }}>
+                            <HelperText visible={props.helperText !== undefined || props.helperText !== ""} type={props.error ? "error" : "info"} >{props.helperText}</HelperText>
                         </View>
                     </View>
                 </Animated.View>
@@ -150,6 +162,7 @@ function FetchAutoComplete<T>(props: FetchAutoCompleteProps<T>) {
                                     onChangeText={handleInputChange}
                                     mode='outlined'
                                     style={{ width: "90%", backgroundColor: "transparent" }}
+                                    right={inputValue == inputDebounce ? <TouchableRipple onPress={() => setInputValue("")} > <Exit /> </TouchableRipple> : <TouchableRipple><Search /></TouchableRipple>}
                                 />
                             </View>
                             <Animated.View style={{ paddingTop: dataY.current, opacity: dataOpacity.current }}>
@@ -205,6 +218,19 @@ function ArrowDown(props: SvgProps) {
         >
             <Path d="M0 0h24v24H0z" fill="none" />
             <Path d="M7 10l5 5 5-5z" />
+        </Svg>
+    )
+}
+
+function Search(props: SvgProps) {
+    return (
+        <Svg
+            height={24}
+            viewBox="0 -960 960 960"
+            width={24}
+            {...props}
+        >
+            <Path d="M784-120L532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56zM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400z" />
         </Svg>
     )
 }
