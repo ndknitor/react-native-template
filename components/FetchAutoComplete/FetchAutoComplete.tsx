@@ -140,7 +140,7 @@ function FetchAutoComplete<T>(props: FetchAutoCompleteProps<T>) {
                             <Text style={{ color: label != "" ? "black" : "gray", fontSize: 16 }} >{label || props.placeholder}</Text>
                         </View>
                         <View style={{ width: 60, height: "100%", alignItems: "center", justifyContent: "center" }}>
-                            {label === "" ? <ArrowDown width={30} height={30} /> : <Clear width={24} height={24} onPress={handleCancel} />}
+                            {label === "" ? <ArrowDown width={30} height={30} /> : <Clear width={20} height={20} onPress={handleCancel} />}
                         </View>
                     </View>
                 </Animated.View>
