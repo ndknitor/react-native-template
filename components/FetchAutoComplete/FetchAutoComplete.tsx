@@ -14,9 +14,10 @@ export interface AutoCompleteFetchResponse<T> {
 }
 
 interface FetchAutoCompleteProps<T> {
+    value?: T;
     fetch: (query: string, page: number) => Promise<AutoCompleteFetchResponse<T>>;
-    placeholder: string;
-    onChange: (selectedOption: Option<T> | null) => void;
+    placeholder?: string;
+    onChange?: (selectedOption: Option<T> | null) => void;
     debounce?: number | 600;
     keyExtractor?: ((item: Option<T>, index: number) => string) | undefined;
     helperText?: string;
@@ -32,7 +33,7 @@ function FetchAutoComplete<T>(props: FetchAutoCompleteProps<T>) {
     const hasMore = useRef(true);
 
     const inputDebounce = useDebounce(inputValue, 600);
-    const pageDebounce = useDebounce(page, 500);
+    const pageDebounce = useDebounce(page, 50);
 
     const opacity = useRef(new Animated.Value(0));
     const y = useRef(new Animated.Value(24));
@@ -46,8 +47,12 @@ function FetchAutoComplete<T>(props: FetchAutoCompleteProps<T>) {
         await fetchData();
     }, [inputDebounce, props.fetch, pageDebounce]);
     useEffect(() => {
+        if (props.value) {
+            setLabel(options.find(o => o.value === props.value)?.label || "");
+        }
+        animation.reset();
         animation.start();
-    }, []);
+    }, [props.value]);
 
     const fetchData = async () => {
         setLoading(true);
@@ -110,14 +115,14 @@ function FetchAutoComplete<T>(props: FetchAutoCompleteProps<T>) {
     const handleItemPress = (item: Option<T>) => {
         animation.reset();
         setLabel(item.label);
-        props.onChange(item);
+        props.onChange && props.onChange(item);
         setModalVisible(false); // Hide the modal when an item is selected
         animation.start();
     };
     const handleCancel = () => {
         animation.reset();
         setTimeout(() => setLabel(""), 100);
-        props.onChange(null);
+        props.onChange && props.onChange(null);
         animation.start();
     }
     const openModal = () => {
@@ -135,14 +140,14 @@ function FetchAutoComplete<T>(props: FetchAutoCompleteProps<T>) {
                             <Text style={{ color: label != "" ? "black" : "gray", fontSize: 16 }} >{label || props.placeholder}</Text>
                         </View>
                         <View style={{ width: 60, height: "100%", alignItems: "center", justifyContent: "center" }}>
-                            {label === "" ? <ArrowDown width={30} height={30} /> : <Exit width={24} height={24} onPress={handleCancel} />}
-                        </View>
-                        <View style={{ marginTop: 5, width : "100%" }}>
-                            <HelperText visible={props.helperText !== undefined || props.helperText !== ""} type={props.error ? "error" : "info"} >{props.helperText}</HelperText>
+                            {label === "" ? <ArrowDown width={30} height={30} /> : <Clear width={20} height={20} onPress={handleCancel} />}
                         </View>
                     </View>
                 </Animated.View>
             </TouchableRipple>
+            <View style={{ width: "100%" }}>
+                <HelperText visible={props.helperText !== undefined || props.helperText !== ""} type={props.error ? "error" : "info"} >{props.helperText}</HelperText>
+            </View>
             <Modal
                 visible={isModalVisible}
                 animationType="slide"
@@ -155,15 +160,31 @@ function FetchAutoComplete<T>(props: FetchAutoCompleteProps<T>) {
                         </View>
                         <View style={{ flex: 1, overflow: "hidden" }}>
                             <View style={{ width: "100%", alignItems: "center" }}>
-                                <TextInput
-                                    onSubmitEditing={() => handleInputChange(inputValue)}
-                                    label={props.placeholder}
-                                    value={inputValue}
-                                    onChangeText={handleInputChange}
-                                    mode='outlined'
-                                    style={{ width: "90%", backgroundColor: "transparent" }}
-                                    right={inputValue == inputDebounce ? <TouchableRipple onPress={() => setInputValue("")} > <Exit /> </TouchableRipple> : <TouchableRipple><Search /></TouchableRipple>}
-                                />
+                                <View style={{ width: "90%", justifyContent: "center" }}>
+                                    <TextInput
+                                        onSubmitEditing={() => handleInputChange(inputValue)}
+                                        label={props.placeholder}
+                                        value={inputValue}
+                                        onChangeText={handleInputChange}
+                                        mode='outlined'
+                                        style={{ width: "100%", backgroundColor: "transparent" }} />
+                                    <View style={{ position: "absolute", zIndex: 1, right: 10 }}>
+                                        {
+                                            inputDebounce == inputValue && inputValue !== "" ?
+                                                (
+                                                    <TouchableRipple onPress={() => setInputValue("")} >
+                                                        <Clear width={18} height={18} />
+                                                    </TouchableRipple>
+                                                )
+                                                :
+                                                (
+                                                    <TouchableRipple>
+                                                        <Search width={18} height={18} />
+                                                    </TouchableRipple>
+                                                )
+                                        }
+                                    </View>
+                                </View>
                             </View>
                             <Animated.View style={{ paddingTop: dataY.current, opacity: dataOpacity.current }}>
                                 <Pressable style={{ display: loading ? "flex" : "none", width: "100%", height: "100%", position: "absolute", backgroundColor: "rgba(255, 255, 255, 0.8)", zIndex: 1, alignItems: "center", justifyContent: "center" }}>
@@ -192,18 +213,33 @@ function FetchAutoComplete<T>(props: FetchAutoCompleteProps<T>) {
                         </View>
                     </View>
                 </Pressable>
-            </Modal>
+            </Modal >
         </>
     );
 }
 
-function Exit(props: SvgProps) {
+function Clear(props: SvgProps) {
     return (
         <Svg
             viewBox="0 0 50 50"
             {...props}
         >
             <Path d="M7.719 6.281L6.28 7.72 23.563 25 6.28 42.281 7.72 43.72 25 26.437 42.281 43.72l1.438-1.438L26.437 25 43.72 7.719 42.28 6.28 25 23.563z" />
+        </Svg>
+    )
+}
+
+function Exit(props: SvgProps) {
+    return (
+        <Svg
+            height={24}
+            viewBox="0 -960 960 960"
+            width={24}
+            fill={"red"}
+            strokeWidth={0.1}
+            {...props}
+        >
+            <Path d="M336-307.692l144-144 144 144L652.308-336l-144-144 144-144L624-652.308l-144 144-144-144L307.692-624l144 144-144 144L336-307.692zM480.134-120q-74.673 0-140.41-28.339-65.737-28.34-114.365-76.922-48.627-48.582-76.993-114.257Q120-405.194 120-479.866q0-74.673 28.339-140.41 28.34-65.737 76.922-114.365 48.582-48.627 114.257-76.993Q405.194-840 479.866-840q74.673 0 140.41 28.339 65.737 28.34 114.365 76.922 48.627 48.582 76.993 114.257Q840-554.806 840-480.134q0 74.673-28.339 140.41-28.34 65.737-76.922 114.365-48.582 48.627-114.257 76.993Q554.806-120 480.134-120zM480-160q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93zm0-320z" />
         </Svg>
     )
 }
