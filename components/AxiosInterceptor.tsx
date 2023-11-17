@@ -1,11 +1,8 @@
-import axios, { AxiosError, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import axios, { AxiosError,  AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import { Dispatch, PropsWithChildren, SetStateAction, createContext, useContext, useEffect, useState } from 'react'
-import Toast from 'react-native-root-toast';
 import { API_BASE_URL, REQUEST_TIMEOUT } from "@env";
-import colors from '../utils/colors';
 import React from 'react';
 import PageLoader from './PageLoader/PageLoader';
-import languages from '../utils/language';
 import { useGlobalContext } from '../context/GlobalContextProvider';
 import Message from '../libs/function/Message';
 const appxios = axios.create({
