@@ -43,34 +43,6 @@ function FetchAutoComplete<T>(props: FetchAutoCompleteProps<T>) {
 
     const [isModalVisible, setModalVisible] = useState(false);
 
-    useAsyncEffect(async () => {
-        await fetchData();
-    }, [inputDebounce, props.fetch, pageDebounce]);
-    useEffect(() => {
-        if (props.value) {
-            setLabel(options.find(o => o.value === props.value)?.label || "");
-        }
-        animation.reset();
-        animation.start();
-    }, [props.value]);
-
-    const fetchData = async () => {
-        setLoading(true);
-        const response = await props.fetch(inputValue, page);
-        if (page === 1) {
-            dataAnimation.reset();
-            setOptions(response.options);
-        } else {
-            setOptions((prevOptions) => [...prevOptions, ...response.options]);
-        }
-        setTimeout(() => { }, 100);
-        if (page == 1) {
-            dataAnimation.start();
-        }
-        hasMore.current = response.hasMore;
-        setLoading(false);
-    }
-
     const animation = Animated.parallel([
         Animated.timing(opacity.current, {
             toValue: 1,
@@ -130,6 +102,34 @@ function FetchAutoComplete<T>(props: FetchAutoCompleteProps<T>) {
         dataAnimation.start();
         setModalVisible(true);
     }
+
+    const fetchData = async () => {
+        setLoading(true);
+        const response = await props.fetch(inputValue, page);
+        if (page === 1) {
+            dataAnimation.reset();
+            setOptions(response.options);
+        } else {
+            setOptions((prevOptions) => [...prevOptions, ...response.options]);
+        }
+        setTimeout(() => { }, 100);
+        if (page == 1) {
+            dataAnimation.start();
+        }
+        hasMore.current = response.hasMore;
+        setLoading(false);
+    }
+
+    useAsyncEffect(async () => {
+        await fetchData();
+    }, [inputDebounce, props.fetch, pageDebounce]);
+    useEffect(() => {
+        if (props.value) {
+            setLabel(options.find(o => o.value === props.value)?.label || "");
+        }
+        animation.reset();
+        animation.start();
+    }, [props.value, fetchData, animation, dataAnimation]);
 
     return (
         <>
