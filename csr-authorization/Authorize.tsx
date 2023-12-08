@@ -1,16 +1,13 @@
 import React, { PropsWithChildren, useContext, useEffect } from 'react'
-import useRouter from './hook/useRouter';
-import { AppScreens } from '../Routes';
-import { forbiddenRedirect, unauthenticatedRedirect } from '../utils/Redirect';
-import { AuthorizeContext } from '../context/AuthorizeContextProvider';
+import { AuthorizeContext } from './AuthorizeContextProvider';
+import { ParamListBase, useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 interface Props extends PropsWithChildren {
     roles?: string[];
-    unauthenticatedRedirect?: keyof AppScreens;
-    forbiddenRedirect?: keyof AppScreens;
 }
 function Authorize(props: Props) {
-    const { replace } = useRouter();
-    const { authenticated, roles, initLoading } = useContext(AuthorizeContext);
+    const { replace } = useNavigation<StackNavigationProp<ParamListBase>>();
+    const { authenticated, roles, initLoading, forbidden, unauthorized } = useContext(AuthorizeContext);
     const isInRole = () => {
         if (!props.roles) {
             return true;
@@ -28,11 +25,11 @@ function Authorize(props: Props) {
             return;
         }
         if (!authenticated) {
-            replace(props.unauthenticatedRedirect || unauthenticatedRedirect);
+            replace(unauthorized);
             return;
         }
         if (!isInRole()) {
-            replace(props.forbiddenRedirect || forbiddenRedirect);
+            replace(forbidden);
             return;
         }
     }, [initLoading])

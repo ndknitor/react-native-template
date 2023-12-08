@@ -8,7 +8,7 @@ import ThemeTextInput from '../../components/ThemeTextInput/ThemeTextInput'
 import { useFormik } from 'formik'
 import * as Yup from 'yup';
 import SignInRequest from '../../objects/requests/SignInRequest'
-import Message from '../../libs/function/Message'
+import Message from '../../utils/Message'
 
 
 export default function About() {

@@ -4,7 +4,7 @@ import { API_BASE_URL, REQUEST_TIMEOUT } from "@env";
 import React from 'react';
 import PageLoader from './PageLoader/PageLoader';
 import { useGlobalContext } from '../context/GlobalContextProvider';
-import Message from '../libs/function/Message';
+import Message from '../utils/Message';
 const appxios = axios.create({
     baseURL: API_BASE_URL,
     timeout: REQUEST_TIMEOUT | 3000,

@@ -1,5 +1,5 @@
 import Toast, { ToastOptions } from "react-native-root-toast";
-import colors from "../../utils/colors";
+import colors from "./colors";
 
 const Message = {
     success: (message: string, options?: ToastOptions | undefined) => {

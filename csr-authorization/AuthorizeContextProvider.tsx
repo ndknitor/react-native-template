@@ -1,17 +1,33 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { createContext, Dispatch, PropsWithChildren, SetStateAction, useState } from "react"
 class AuthorizeStore {
     initLoading: boolean = true;
     setInitLoading: Dispatch<SetStateAction<boolean>> = () => { };
 
+    unauthorized: string = "";
+    forbidden: string = "";
+
     authenticated: boolean = false;
     roles: string[] = [];
     setAuthorize: (scheme: string[] | boolean) => void = () => { };
 }
-const useProvider: () => AuthorizeStore = () => {
+const useProvider: (u: string, f: string, init: () => string[] | boolean) => AuthorizeStore = (u, f, init: () => string[] | boolean) => {
     const [initLoading, setInitLoading] = useState<boolean>(true);
     const [authenticated, setAuthenticated] = useState<boolean>(false);
     const [roles, setRoles] = useState<string[]>([]);
+
+    const [unauthorized, setUnauthorized] = useState("");
+    const [forbidden, setForbidden] = useState("");
+
+    useEffect(() => {
+        setAuthorize(init())
+        setForbidden(f);
+        setUnauthorized(u);
+        if (initLoading) {
+            setInitLoading(false);
+        }
+    }, []);
+
     const setAuthorize = (scheme: string[] | boolean) => {
         if (!(typeof scheme == "boolean")) {
             setAuthenticated(true);
@@ -28,14 +44,22 @@ const useProvider: () => AuthorizeStore = () => {
 
         authenticated,
         roles,
-        setAuthorize
+        setAuthorize,
+        unauthorized,
+        forbidden
     };
 }
 export const AuthorizeContext = createContext<AuthorizeStore>(new AuthorizeStore());
-export default function AuthorizeContextProvider({ children }: PropsWithChildren) {
+interface AuthorizeProviderProps extends PropsWithChildren {
+    unauthorized: string;
+    forbidden: string;
+    onInitAuthorize: () => string[] | boolean;
+}
+export default function AuthorizeContextProvider(props: AuthorizeProviderProps) {
+
     return (
-        <AuthorizeContext.Provider value={useProvider()} >
-            {children}
+        <AuthorizeContext.Provider value={useProvider(props.unauthorized, props.forbidden, props.onInitAuthorize)} >
+            {props.children}
         </AuthorizeContext.Provider>
     );
 }
