@@ -1,4 +1,4 @@
-import axios, { AxiosError,  AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import axios, { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import { Dispatch, PropsWithChildren, SetStateAction, createContext, useContext, useEffect, useState } from 'react'
 import { API_BASE_URL, REQUEST_TIMEOUT } from "@env";
 import React from 'react';
@@ -14,19 +14,8 @@ export interface InterceptorParams {
     loadingLock?: boolean;
     setLoading?: Dispatch<SetStateAction<boolean>>;
 }
-export function setAuthorizationBearer(jwt?: string) {
-    if (jwt) {
-        appxios.defaults.headers.common['Authorization'] = `Bearer ${jwt}`;
-    }
-    else {
-        delete appxios.defaults.headers.common['Authorization'];
-    }
-}
 
 const AxiosLoadingContext = createContext<{ loading: boolean }>({ loading: false });
-export function useAxiosLoading() {
-    return useContext(AxiosLoadingContext).loading;
-}
 
 export function AxiosInterceptor({ children }: PropsWithChildren) {
     const [loading, setLoading] = useState(false);
@@ -97,5 +86,15 @@ export function AxiosInterceptor({ children }: PropsWithChildren) {
     )
 }
 
-
 export default appxios;
+
+export function setAuthorizationBearer(jwt?: string) {
+    if (jwt) {
+        appxios.defaults.headers.common['Authorization'] = `Bearer ${jwt}`;
+    }
+    else {
+        delete appxios.defaults.headers.common['Authorization'];
+    }
+}
+
+export const useAxiosLoading = () => useContext(AxiosLoadingContext).loading;
