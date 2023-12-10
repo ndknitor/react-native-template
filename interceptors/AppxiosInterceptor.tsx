@@ -2,7 +2,7 @@ import axios, { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'ax
 import { Dispatch, PropsWithChildren, SetStateAction, createContext, useContext, useEffect, useState } from 'react'
 import { API_BASE_URL, REQUEST_TIMEOUT } from "@env";
 import React from 'react';
-import PageLoader from './PageLoader/PageLoader';
+import PageLoader from '../components/PageLoader/PageLoader';
 import { useGlobalContext } from '../context/GlobalContextProvider';
 import Message from '../utils/Message';
 const appxios = axios.create({
@@ -10,29 +10,27 @@ const appxios = axios.create({
     timeout: REQUEST_TIMEOUT | 3000,
     validateStatus: () => true
 });
-export interface InterceptorParams {
-    loadingLock?: boolean;
-    setLoading?: Dispatch<SetStateAction<boolean>>;
+export default appxios;
+
+export function setAuthorizationBearer(jwt?: string) {
+    if (jwt) {
+        appxios.defaults.headers.common['Authorization'] = `Bearer ${jwt}`;
+    }
+    else {
+        delete appxios.defaults.headers.common['Authorization'];
+    }
 }
+
+export const useAppxiosLoading = () => useContext(AxiosLoadingContext).loading;
 
 const AxiosLoadingContext = createContext<{ loading: boolean }>({ loading: false });
 
-export function AxiosInterceptor({ children }: PropsWithChildren) {
+export function AppxiosInterceptor({ children }: PropsWithChildren) {
     const [loading, setLoading] = useState(false);
-    const [lockLoading, setLockLoading] = useState(false);
     const { languages } = useGlobalContext();
     useEffect(() => {
         const beforeRequest = (config: InternalAxiosRequestConfig<any>) => {
             setLoading(true);
-            const { loadAction } = config;
-            if (loadAction) {
-                if (loadAction.loadingLock) {
-                    setLockLoading(true);
-                }
-                if (loadAction.setLoading) {
-                    loadAction.setLoading(true);
-                }
-            }
             return config;
         }
         const requestError = (error: any) => {
@@ -42,28 +40,11 @@ export function AxiosInterceptor({ children }: PropsWithChildren) {
             setLoading(false);
             console.log(`Path: ${response.config.url}; Method:${response.config.method}; Status: ${response.status};
             Body:${response.config.data}`);
-            const { loadAction } = response.config;
-            if (loadAction) {
-                if (loadAction.loadingLock) {
-                    setLockLoading(false);
-                }
-                if (loadAction.setLoading) {
-                    loadAction.setLoading(false);
-                }
-            }
             return response;
         }
         const onResponseError = (error: AxiosError) => {
             setLoading(false);
-            const loadAction = error.config?.loadAction;
-            if (loadAction) {
-                if (loadAction.loadingLock) {
-                    setLockLoading(false);
-                }
-                if (loadAction.setLoading) {
-                    loadAction.setLoading(false);
-                }
-            }
+
             let message = "";
             if (error.code == "ERR_NETWORK") {
                 message = languages.axios.serverError;
@@ -80,21 +61,7 @@ export function AxiosInterceptor({ children }: PropsWithChildren) {
     }, [languages])
     return (
         <AxiosLoadingContext.Provider value={{ loading }}>
-            <PageLoader loading={lockLoading} />
             {children}
         </AxiosLoadingContext.Provider>
     )
 }
-
-export default appxios;
-
-export function setAuthorizationBearer(jwt?: string) {
-    if (jwt) {
-        appxios.defaults.headers.common['Authorization'] = `Bearer ${jwt}`;
-    }
-    else {
-        delete appxios.defaults.headers.common['Authorization'];
-    }
-}
-
-export const useAxiosLoading = () => useContext(AxiosLoadingContext).loading;
