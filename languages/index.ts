@@ -1,5 +1,5 @@
-import vi from './languages/vi.json';
-import en from './languages/en.json';
+import vi from './vi.json';
+import en from './en.json';
 type Languages ={
     vi : typeof vi;
     en : typeof en;

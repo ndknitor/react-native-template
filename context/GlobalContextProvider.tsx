@@ -1,6 +1,6 @@
 import React from "react";
 import { createContext, useContext, Dispatch, SetStateAction, useState, PropsWithChildren } from "react";
-import Languages from "../utils/language";
+import Languages from "../languages";
 
 interface ContextProps {
     languages: typeof Languages.en;

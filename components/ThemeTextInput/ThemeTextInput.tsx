@@ -1,7 +1,7 @@
 import { HelperText, TextInput, TextInputProps } from 'react-native-paper'
 import React from 'react'
 import { View } from 'react-native'
-import { Field, FieldMetaProps } from 'formik';
+import { FieldMetaProps } from 'formik';
 interface ThemeTextInputProps extends TextInputProps {
     name: string;
     formik:
