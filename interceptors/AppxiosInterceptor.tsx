@@ -1,8 +1,7 @@
 import axios, { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
-import { Dispatch, PropsWithChildren, SetStateAction, createContext, useContext, useEffect, useState } from 'react'
+import { PropsWithChildren, createContext, useContext, useEffect, useState } from 'react'
 import { API_BASE_URL, REQUEST_TIMEOUT } from "@env";
 import React from 'react';
-import PageLoader from '../components/PageLoader/PageLoader';
 import { useGlobalContext } from '../context/GlobalContextProvider';
 import Message from '../utils/Message';
 const appxios = axios.create({
@@ -38,8 +37,10 @@ export function AppxiosInterceptor({ children }: PropsWithChildren) {
         }
         const onResponse = (response: AxiosResponse<any, any>) => {
             setLoading(false);
-            console.log(`Path: ${response.config.url}; Method:${response.config.method}; Status: ${response.status};
-            Body:${response.config.data}`);
+            if (__DEV__) {
+                console.log(`Path: ${response.config.url}; Method: ${response.config.method}; Status: ${response.status}
+Body: ${response.config.data}`);
+            }
             return response;
         }
         const onResponseError = (error: AxiosError) => {

@@ -7,11 +7,13 @@
         "signInRequest": {
             "email": {
                 "required": "Vui lòng nhập email",
-                "email": "Email không hợp lệ"
+                "email": "Email không hợp lệ",
+                "max" : "Email can't longer than 48 characters"
             },
             "password": {
                 "required": "Vui lòng nhập mật khẩu",
-                "min": "Mật khẩu phải có ít nhất 6 kí tự"
+                "min": "Mật khẩu phải có ít nhất 6 kí tự",
+                "max" : "Mật khẩu phải ít hơn 4096 ký tự"
             }
         }
     },
