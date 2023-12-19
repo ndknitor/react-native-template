@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { View } from 'react-native'
 import useRouter from '../utils/useRouter';
-import { Button , Text} from 'react-native-paper';
+import { Button, Text } from 'react-native-paper';
 export default function Index() {
     const { navigate } = useRouter();
     const [search, setSearch] = useState("");
