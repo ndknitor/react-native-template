@@ -2,7 +2,7 @@ import axios, { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'ax
 import { PropsWithChildren, createContext, useContext, useEffect, useState } from 'react'
 import { API_BASE_URL, REQUEST_TIMEOUT } from "@env";
 import React from 'react';
-import { useGlobalContext } from '../context/GlobalContextProvider';
+import { useGlobalContext } from './GlobalContextProvider';
 import Message from '../utils/Message';
 const appxios = axios.create({
     baseURL: API_BASE_URL,
@@ -24,7 +24,7 @@ export const useAppxiosLoading = () => useContext(AxiosLoadingContext).loading;
 
 const AxiosLoadingContext = createContext<{ loading: boolean }>({ loading: false });
 
-export function AppxiosInterceptor({ children }: PropsWithChildren) {
+export function AxiosInterceptor({ children }: PropsWithChildren) {
     const [loading, setLoading] = useState(false);
     const { languages } = useGlobalContext();
     useEffect(() => {
