@@ -5,6 +5,9 @@
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
+    "build-android": "cd android && ./gradlew assembleRelease",
+    "clean-android": "cd android && ./gradlew clean",
+    "icon": "npx react-native set-icon --path ./assets/icon.png",
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest"
