@@ -2,7 +2,7 @@ import { HelperText, TextInput, TextInputProps } from 'react-native-paper'
 import React from 'react'
 import { View } from 'react-native'
 import { FieldMetaProps } from 'formik';
-interface ValidationTextInputProps extends TextInputProps {
+interface ThemeTextInputProps extends TextInputProps {
     name: string;
     formik:
     {
@@ -17,7 +17,7 @@ interface ValidationTextInputProps extends TextInputProps {
         getFieldMeta: (name: string) => FieldMetaProps<any>;
     }
 }
-function ValidationTextInput(props: ValidationTextInputProps) {
+function ThemeTextInput(props: ThemeTextInputProps) {
     const meta = props.formik.getFieldMeta(props.name);
     return (
         <View style={{ width: "100%" }}>
@@ -27,10 +27,8 @@ function ValidationTextInput(props: ValidationTextInputProps) {
                 error={meta.touched && Boolean(meta.error)}
                 value={meta.value}
                 mode='flat'
-
                 style={[props.style, { width: "100%", backgroundColor: "transparent" }]}
-                {...props}
-            />
+                {...props} />
             <HelperText visible={meta.touched && Boolean(meta.error)} type={meta.error ? "error" : "info"}>
                 {meta.touched && meta.error}
             </HelperText>
@@ -38,6 +36,6 @@ function ValidationTextInput(props: ValidationTextInputProps) {
     )
 }
 
-export default ValidationTextInput
+export default ThemeTextInput
 
 
