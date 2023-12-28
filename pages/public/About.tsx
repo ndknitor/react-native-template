@@ -2,14 +2,12 @@ import React from 'react'
 import { View } from 'react-native'
 import { Button, Text } from 'react-native-paper'
 import Animated, { FadeInDown } from 'react-native-reanimated'
-import appxios from '../../context/AxiosInterceptor'
 import Toast from 'react-native-root-toast'
 import ThemeTextInput from '../../components/ThemeTextInput/ThemeTextInput'
 import { useFormik } from 'formik'
-import * as Yup from 'yup';
 import SignInRequest from '../../objects/requests/SignInRequest'
-import Message from '../../utils/Message'
-import { AssetImage, AssetSvg } from '../../assets'
+import { AssetImage } from '../../assets'
+import fetcker from '../../utils/fetcker'
 
 
 export default function About() {
@@ -34,11 +32,11 @@ export default function About() {
     <Animated.View entering={FadeInDown.duration(600)} style={{ width: "100%", height: "100%" }}>
       <View style={{ rowGap: 10, padding: 15, width: "100%", height: "100%", alignItems: "center", justifyContent: "center" }}>
         {/* <View style={{ backgroundColor: "red", height: 90, width: 90 }} /> */}
-        <AssetImage.Ruby width={90} height={90}  />
+        <AssetImage.Ruby width={90} height={90} />
         <Button
           mode='contained'
           onPress={async () => {
-            await appxios.get("", {});
+            await fetcker.get("");
           }} >Click</Button>
         <View style={{ width: "100%", rowGap: 10 }}>
           <ThemeTextInput

@@ -1,9 +1,7 @@
 import React from 'react';
 import Routes from './Routes';
-import { GlobalContextProvider } from './context/GlobalContextProvider';
-import AuthorizeContextProvider from './csr-authorization/AuthorizeContextProvider';
+import AuthorizeContextProvider from './context/AuthorizeContextProvider';
 import { RootSiblingParent } from 'react-native-root-siblings';
-import { AxiosInterceptor } from './context/AxiosInterceptor';
 
 // import OneSignal from 'react-native-onesignal';
 // import { ONESIGNAL_APP_ID } from '@env';
@@ -28,11 +26,7 @@ function App(): JSX.Element {
   return (
     <RootSiblingParent>
       <AuthorizeContextProvider unauthorized={"Unauthorized"} forbidden={'Forbidden'} onInitAuthorize={() => false}>
-        <GlobalContextProvider>
-          <AxiosInterceptor>
-            <Routes />
-          </AxiosInterceptor>
-        </GlobalContextProvider>
+        <Routes />
       </AuthorizeContextProvider>
     </RootSiblingParent>
   );

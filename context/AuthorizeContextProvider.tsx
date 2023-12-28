@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import { useAsyncEffect } from "ndknitor-ts/hooks";
+import React from "react";
 import { createContext, Dispatch, PropsWithChildren, SetStateAction, useState } from "react"
 class AuthorizeStore {
     initLoading: boolean = true;
@@ -11,7 +12,7 @@ class AuthorizeStore {
     roles: string[] = [];
     setAuthorize: (scheme: string[] | boolean) => void = () => { };
 }
-const useProvider: (u: string, f: string, init: () => string[] | boolean) => AuthorizeStore = (u, f, init: () => string[] | boolean) => {
+const useProvider: (u: string, f: string, init: () => string[] | boolean | Promise<string[]> | Promise<boolean>) => AuthorizeStore = (u, f, init: () => string[] | boolean | Promise<string[]> | Promise<boolean>) => {
     const [initLoading, setInitLoading] = useState<boolean>(true);
     const [authenticated, setAuthenticated] = useState<boolean>(false);
     const [roles, setRoles] = useState<string[]>([]);
@@ -19,8 +20,8 @@ const useProvider: (u: string, f: string, init: () => string[] | boolean) => Aut
     const [unauthorized, setUnauthorized] = useState("");
     const [forbidden, setForbidden] = useState("");
 
-    useEffect(() => {
-        setAuthorize(init())
+    useAsyncEffect(async () => {
+        setAuthorize(await init())
         setForbidden(f);
         setUnauthorized(u);
         if (initLoading) {
@@ -53,7 +54,7 @@ export const AuthorizeContext = createContext<AuthorizeStore>(new AuthorizeStore
 interface AuthorizeProviderProps extends PropsWithChildren {
     unauthorized: string;
     forbidden: string;
-    onInitAuthorize: () => string[] | boolean;
+    onInitAuthorize: () => string[] | boolean | Promise<string[]> | Promise<boolean>;
 }
 export default function AuthorizeContextProvider(props: AuthorizeProviderProps) {
 
