@@ -8,11 +8,10 @@ import { useFormik } from 'formik'
 import SignInRequest from '../../objects/requests/SignInRequest'
 import { AssetImage } from '../../assets'
 import fetcker from '../../utils/fetcker'
+import NavigationScreenProps from '../../utils/NavigationScreenProps'
 
 
-export default function About() {
-
-
+export default function About(props: NavigationScreenProps<{date : string}>) {
   const formik = useFormik({
     initialValues: SignInRequest.getDefault(),
     validationSchema: SignInRequest,
