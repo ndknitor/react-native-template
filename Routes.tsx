@@ -5,7 +5,6 @@ import Index from './pages/Index';
 import About from './pages/public/About';
 import Loading from './components/Loading/Loading';
 import { useInitEffect } from 'ndknitor-ts/hooks';
-import fetcker from './utils/fetcker';
 const Stack = createStackNavigator();
 export type AppScreens = {
   Index: undefined;
