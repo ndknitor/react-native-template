@@ -34,5 +34,4 @@ EXPOSE 8081
 # Start the React Native packager when the container launches
 CMD ["/bin/bash", "-c", "npm install; npm start"]
 # docker build -t react-native-cli .
-# docker run --rm -it --name react-project /bin/adb:/bin/adb --net=host -p 8081:8081 -v "$(pwd)":/app -u $(id -u ${USER}):$(id -g ${USER}) react-native-cli
 # docker run --rm -it --name react-project -u ${USER}:${USER} -p 8081:8081 -v "$(pwd)":/app react-native-cli
