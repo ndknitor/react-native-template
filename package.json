@@ -20,6 +20,7 @@
     "axios": "^1.6.2",
     "fetcker": "^1.0.1",
     "formik": "^2.4.5",
+    "linq-to-typescript": "^11.0.0",
     "module-resolver": "^1.0.0",
     "moment": "^2.29.4",
     "ndknitor-ts": "^2.0.1",
