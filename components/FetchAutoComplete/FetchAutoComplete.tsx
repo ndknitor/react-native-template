@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Animated, FlatList, Modal, Pressable, View } from 'react-native';
 import { ActivityIndicator, TextInput, Text, TouchableRipple, HelperText } from 'react-native-paper';
-import { useDebounce } from 'usehooks-ts'
-import { useAsyncEffect } from 'use-async-effect';
 import Svg, { Path, SvgProps } from 'react-native-svg';
+import { useAsyncEffect, useDebounceState } from 'ndknitor-ts/hooks';
 interface Option<T> {
     label: string;
     value: T;
@@ -18,22 +17,20 @@ interface FetchAutoCompleteProps<T> {
     fetch: (query: string, page: number) => Promise<AutoCompleteFetchResponse<T>>;
     placeholder?: string;
     onChange?: (selectedOption: Option<T> | null) => void;
-    debounce?: number | 600;
+    debounce?: number;
     keyExtractor?: ((item: Option<T>, index: number) => string) | undefined;
     helperText?: string;
     error?: boolean;
 }
 
 function FetchAutoComplete<T>(props: FetchAutoCompleteProps<T>) {
-    const [inputValue, setInputValue] = useState('');
     const [options, setOptions] = useState<Option<T>[]>([]);
     const [loading, setLoading] = useState(false);
     const [label, setLabel] = useState("");
-    const [page, setPage] = useState(1);
     const hasMore = useRef(true);
 
-    const inputDebounce = useDebounce(inputValue, 600);
-    const pageDebounce = useDebounce(page, 50);
+    const [inputValue, inputDebounce, setInputValue] = useDebounceState("", props.debounce || 750);
+    const [page, pageDebounce, setPage] = useDebounceState(1, 50);
 
     const opacity = useRef(new Animated.Value(0));
     const y = useRef(new Animated.Value(24));

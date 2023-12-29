@@ -3,15 +3,16 @@ import { View } from 'react-native'
 import { Button, Text } from 'react-native-paper'
 import Animated, { FadeInDown } from 'react-native-reanimated'
 import Toast from 'react-native-root-toast'
-import ThemeTextInput from '../../components/ThemeTextInput/ThemeTextInput'
 import { useFormik } from 'formik'
 import SignInRequest from '../../objects/requests/SignInRequest'
 import { AssetImage } from '../../assets'
 import fetcker from '../../utils/fetcker'
-import NavigationScreenProps from '../../utils/NavigationScreenProps'
+import { StackScreenProps } from '@react-navigation/stack'
+import { ParamListBase } from '@react-navigation/native'
+import ValidationTextInput from '../../components/ValidationTextInput/ValidationTextInput'
 
 
-export default function About(props: NavigationScreenProps<{date : string}>) {
+export default function About(props: StackScreenProps<ParamListBase>) {
   const formik = useFormik({
     initialValues: SignInRequest.getDefault(),
     validationSchema: SignInRequest,
@@ -38,12 +39,12 @@ export default function About(props: NavigationScreenProps<{date : string}>) {
             await fetcker.get("");
           }} >Click</Button>
         <View style={{ width: "100%", rowGap: 10 }}>
-          <ThemeTextInput
+          <ValidationTextInput
             formik={formik}
             name='email'
             label="Email"
           />
-          <ThemeTextInput
+          <ValidationTextInput
             formik={formik}
             name='password'
             label="Password"

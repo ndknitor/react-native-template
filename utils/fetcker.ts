@@ -10,15 +10,14 @@ const fetcker = createFetcker({
     },
     onError: (error, isClient) => {
         let message = "";
-        if (isClient) {
-            switch (error.name) {
-                case "TypeError": message = "Network connection error";
-                    break;
-                case "AbortError": message = "Request time out";
-                    break;
-            }
-            Message.error(message);
+        switch (error.name) {
+            case "TypeError": message = "Network connection error";
+                break;
+            case "AbortError": message = "Request time out";
+                break;
         }
+        Message.error(message);
+        console.log(error);
     }
 });
 
