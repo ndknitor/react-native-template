@@ -1,6 +1,6 @@
 import React from 'react'
 import { View } from 'react-native'
-import { Button, Text } from 'react-native-paper'
+import { Button, DefaultTheme, Text } from 'react-native-paper'
 import Animated, { FadeInDown } from 'react-native-reanimated'
 import Toast from 'react-native-root-toast'
 import { useFormik } from 'formik'
@@ -42,14 +42,12 @@ export default function About(props: StackScreenProps<ParamListBase>) {
           <ValidationTextInput
             formik={formik}
             name='email'
-            label="Email"
-          />
+            label="Email" theme={DefaultTheme}  />
           <ValidationTextInput
             formik={formik}
             name='password'
             label="Password"
-            secureTextEntry
-          />
+            secureTextEntry theme={DefaultTheme} />
           <Button mode='contained' onPress={() => formik.handleSubmit()}>Submit</Button>
         </View>
       </View>

@@ -5,6 +5,8 @@ import Index from './pages/Index';
 import About from './pages/public/About';
 import Loading from './components/Loading/Loading';
 import { useInitEffect } from 'ndknitor-ts/hooks';
+import storage from './utils/storage';
+import fetcker from './utils/fetcker';
 const Stack = createStackNavigator();
 export type AppScreens = {
   Index: undefined;
@@ -13,8 +15,8 @@ export type AppScreens = {
   Unauthorized: undefined;
 }
 function StackScreens() {
-  useInitEffect(async () => {
-
+  useInitEffect(() => {
+    fetcker.setAuthorizationBearer(storage.getString("jwt"));
   });
   return (
     <Stack.Navigator>

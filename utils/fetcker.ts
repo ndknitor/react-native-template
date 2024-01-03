@@ -5,9 +5,6 @@ import storage from "./storage";
 const fetcker = createFetcker({
     baseUrl: API_BASE_URL,
     requestTimeOut: parseInt(REQUEST_TIMEOUT),
-    defaultHeaders: {
-        "Authorization": `Bearer ${storage.getString("jwt") || ""}`
-    },
     onError: (error, isClient) => {
         let message = "";
         switch (error.name) {
