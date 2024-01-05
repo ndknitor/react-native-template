@@ -1,20 +1,24 @@
 import { FieldMetaProps } from 'formik';
 import moment from 'moment';
 import React, { useState } from 'react'
-import DatePicker, { DatePickerProps } from 'react-native-date-picker'
+import DatePicker from 'react-native-date-picker'
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { Text } from 'react-native-paper';
+import { HelperText, Text } from 'react-native-paper';
 interface ValidationDatePickerProps {
-    name : string;
-    reset? : boolean;
+    reset?: boolean;
     format?: string;
     placeholder?: string;
     maximumDate?: Date;
     minimumDate?: Date;
     mode?: "date" | "time" | "datetime";
-    onConfirm? : (date : Date) => void | Promise<void>;
-    onCancel? : () => void | Promise<void>;
+    helperTextVisible? : boolean;
+    helperText? : string;
+    cancelText? : string;
+    title? : string;
+    onConfirm?: (date: Date) => void | Promise<void>;
+    onCancel?: () => void | Promise<void>;
     onReset?: () => void | Promise<void>;
+    name: string;
     formik:
     {
         handleChange: {
@@ -26,22 +30,36 @@ interface ValidationDatePickerProps {
             <T = any>(fieldOrEvent: T): T extends string ? (e: any) => void : void;
         };
         getFieldMeta: (name: string) => FieldMetaProps<any>;
+        setFieldValue : (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void>
     }
 }
 function ValidationDatePicker(props: ValidationDatePickerProps) {
-    const meta = props.formik.getFieldMeta(props.name);
     const [opened, setOpened] = useState(false);
+    const meta = props.formik.getFieldMeta(props.name);
+
+    const getValue = () => {
+        if (meta.value) {
+            return meta.value;
+        }
+        const currentDate = new Date();
+        if (props.maximumDate && props.maximumDate <= currentDate) {
+            return props.maximumDate;
+        }
+        if (props.minimumDate && props.minimumDate >= currentDate) {
+            return props.minimumDate;
+        }
+        return currentDate;
+    }
     return (
         <>
             <DatePicker
                 {...props}
                 modal
-                mode={props.mode}
                 open={opened}
-                date={new Date()}
+                date={getValue()}
                 onConfirm={async (date) => {
                     props.onConfirm && await props.onConfirm(date);
-                    props.formik.handleChange(props.name);
+                    props.formik.setFieldValue(props.name, date);
                     setOpened(false);
                 }}
                 onCancel={async () => {
@@ -50,9 +68,12 @@ function ValidationDatePicker(props: ValidationDatePickerProps) {
                 }}
             />
 
-            {/* <TouchableOpacity onPress={() => setOpened(true)}>
-                <Text style={{ color: meta.value ? "black" : "gray" }}>{props.me ? moment(props.date).format(props.format || "MM/DD/YYYY") : props.placeholder}</Text>
-            </TouchableOpacity> */}
+            <TouchableOpacity onPress={() => setOpened(true)}>
+                <Text style={{ color: meta.value ? "black" : "gray" }}>{meta.value ? moment(meta.value).format(props.format || "MM/DD/YYYY") : props.placeholder}</Text>
+            </TouchableOpacity>
+            <HelperText visible={meta.touched && Boolean(meta.error)} type={meta.error ? "error" : "info"}>
+                {meta.touched && meta.error}
+            </HelperText>
         </>
     )
 }

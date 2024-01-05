@@ -12,5 +12,8 @@ export default Yup.object().shape({
         .min(6, 'Password must be at least 6 characters')
         .max(512, "Password can't longer than 512 characters")
         .required('Password is required')
-        .default("")
+        .default(""),
+    birth: Yup.date()
+        .required("Date of Birth is required")
+        .default(new Date())
 });

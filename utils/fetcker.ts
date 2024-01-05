@@ -1,11 +1,10 @@
 import { API_BASE_URL, REQUEST_TIMEOUT } from "@env";
 import Message from "./Message";
 import { createFetcker } from "fetcker";
-import storage from "./storage";
 const fetcker = createFetcker({
     baseUrl: API_BASE_URL,
     requestTimeOut: parseInt(REQUEST_TIMEOUT),
-    onError: (error, isClient) => {
+    onError: (error) => {
         let message = "";
         switch (error.name) {
             case "TypeError": message = "Network connection error";

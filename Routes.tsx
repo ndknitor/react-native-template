@@ -7,7 +7,7 @@ import Loading from './components/Loading/Loading';
 import { useInitEffect } from 'ndknitor-ts/hooks';
 import storage from './utils/storage';
 import fetcker from './utils/fetcker';
-import LocalStogrageKey from './objects/enums/LocalStogrageKey';
+import LocalStorageKey from './objects/enums/LocalStorageKey';
 const Stack = createStackNavigator();
 export type AppScreens = {
   Index: undefined;
@@ -17,7 +17,7 @@ export type AppScreens = {
 }
 function StackScreens() {
   useInitEffect(() => {
-    fetcker.setAuthorizationBearer(storage.getString(LocalStogrageKey[LocalStogrageKey.Jwt]));
+    fetcker.setAuthorizationBearer(storage.getString(LocalStorageKey.Jwt));
   });
   return (
     <Stack.Navigator>
