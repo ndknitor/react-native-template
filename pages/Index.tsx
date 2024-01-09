@@ -12,7 +12,7 @@ export default function Index() {
     <View style={{ alignItems: "center", justifyContent: "center", width: "100%", height: "100%" }}>
       <Text>{API_BASE_URL}</Text>
       <Button mode='contained' onPress={count.increase}>{count.value}</Button>
-      <Button mode='contained' onPress={() => navigate("Index")}>About</Button>
+      <Button mode='contained' onPress={() => navigate("About")}>About</Button>
       {/* <AssetSvg.Ruby width={100} height={100} /> */}
       {/* <Text variant='titleLarge'>Địt mẹ thằng Duy Nứng Dái</Text> */}
     </View>

@@ -10,21 +10,24 @@ import fetcker from '../../utils/fetcker'
 import { StackScreenProps } from '@react-navigation/stack'
 import { ParamListBase } from '@react-navigation/native'
 import ValidationTextInput from '../../components/ValidationTextInput/ValidationTextInput'
+import ValidationDatePicker from '../../components/ValidationDatePicker/ValidationDatePicker'
 
 
 export default function About(props: StackScreenProps<ParamListBase>) {
+  const schema = SignInRequest();
   const formik = useFormik({
-    initialValues: SignInRequest.getDefault(),
-    validationSchema: SignInRequest,
+    initialValues: schema.getDefault(),
+    validationSchema: schema,
     onSubmit: (values) => {
-      Toast.show('Địt mẹ mày', {
-        duration: Toast.durations.LONG,
-        position: Toast.positions.BOTTOM,
-        shadow: false,
-        animation: true,
-        hideOnPress: true,
-        delay: 0,
-      });
+      console.log(values);
+      // Toast.show('Địt mẹ mày', {
+      //   duration: Toast.durations.LONG,
+      //   position: Toast.positions.BOTTOM,
+      //   shadow: false,
+      //   animation: true,
+      //   hideOnPress: true,
+      //   delay: 0,
+      // });
     },
   });
 
@@ -42,7 +45,7 @@ export default function About(props: StackScreenProps<ParamListBase>) {
           <ValidationTextInput
             formik={formik}
             name='email'
-            label="Email" theme={DefaultTheme}  />
+            label="Email" theme={DefaultTheme} />
           <ValidationTextInput
             formik={formik}
             name='password'

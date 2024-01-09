@@ -9,7 +9,8 @@ type Languages = {
     vi: typeof vi;
     en: typeof en;
 };
-function languageFactory(iso: keyof Languages) {
+export type LanguageISO = keyof Languages;
+function languageFactory(iso: LanguageISO) {
     switch (iso) {
         default:
             return en;
@@ -22,7 +23,7 @@ function languageFactory(iso: keyof Languages) {
 const useLanguage = create<LanguageState>()(
     (setState) => ({
         language: en,
-        setLanguage: (iso) => setState({ language: languageFactory(iso)})
+        setLanguage: (iso) => setState({ language: languageFactory(iso) })
     }),
 );
 
