@@ -1,9 +1,8 @@
 import { FieldMetaProps, FormikErrors } from 'formik';
 import moment from 'moment';
 import React, { useState } from 'react'
-import { View } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import DatePicker from 'react-native-date-picker'
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import { DefaultTheme, HelperText, Text } from 'react-native-paper';
 import Svg, { Path, SvgProps } from 'react-native-svg';
 interface ValidationDatePickerProps {

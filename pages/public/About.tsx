@@ -10,8 +10,6 @@ import fetcker from '../../utils/fetcker'
 import { StackScreenProps } from '@react-navigation/stack'
 import { ParamListBase } from '@react-navigation/native'
 import ValidationTextInput from '../../components/ValidationTextInput/ValidationTextInput'
-import ValidationDatePicker from '../../components/ValidationDatePicker/ValidationDatePicker'
-
 
 export default function About(props: StackScreenProps<ParamListBase>) {
   const schema = SignInRequest();
@@ -45,12 +43,12 @@ export default function About(props: StackScreenProps<ParamListBase>) {
           <ValidationTextInput
             formik={formik}
             name='email'
-            label="Email" theme={DefaultTheme} />
+            label="Email" />
           <ValidationTextInput
             formik={formik}
             name='password'
             label="Password"
-            secureTextEntry theme={DefaultTheme} />
+            secureTextEntry />
           <Button mode='contained' onPress={() => formik.handleSubmit()}>Submit</Button>
         </View>
       </View>

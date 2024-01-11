@@ -17,7 +17,7 @@ export type AppScreens = {
 }
 function StackScreens() {
   useInitEffect(() => {
-    fetcker.setAuthorizationBearer(storage.getString(LocalStorageKey.Jwt));
+    fetcker.setAuthorizationHeader(storage.getString(LocalStorageKey.Jwt));
   });
   return (
     <Stack.Navigator>
