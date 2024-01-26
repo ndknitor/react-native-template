@@ -15,6 +15,9 @@ export default function SignInRequest() {
             .min(6, language.validations.signInRequest.password.min)
             .max(512, language.validations.signInRequest.password.max)
             .required(language.validations.signInRequest.password.required)
-            .default("")
+            .default(""),
+        date : Yup
+            .date()
+            .required("Date is required")
     });
 }

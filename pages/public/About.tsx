@@ -2,7 +2,6 @@ import React from 'react'
 import { View } from 'react-native'
 import { Button, DefaultTheme, Text } from 'react-native-paper'
 import Animated, { FadeInDown } from 'react-native-reanimated'
-import Toast from 'react-native-root-toast'
 import { useFormik } from 'formik'
 import SignInRequest from '../../objects/requests/SignInRequest'
 import { AssetImage } from '../../assets'
@@ -10,6 +9,7 @@ import fetcker from '../../utils/fetcker'
 import { StackScreenProps } from '@react-navigation/stack'
 import { ParamListBase } from '@react-navigation/native'
 import ValidationTextInput from '../../components/ValidationTextInput/ValidationTextInput'
+import ValidationDatePicker from '../../components/ValidationDatePicker/ValidationDatePicker'
 
 export default function About(props: StackScreenProps<ParamListBase>) {
   const schema = SignInRequest();
@@ -49,6 +49,12 @@ export default function About(props: StackScreenProps<ParamListBase>) {
             name='password'
             label="Password"
             secureTextEntry />
+          <ValidationDatePicker
+            formik={formik}
+            name='date'
+            placeholder="Date"
+            mode='date'
+            format='MM/DD/YYYY HH:MM:SS' />
           <Button mode='contained' onPress={() => formik.handleSubmit()}>Submit</Button>
         </View>
       </View>

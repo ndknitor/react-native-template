@@ -1,28 +1,22 @@
-import { FieldMetaProps, FormikErrors } from 'formik';
-import moment from 'moment';
-import React, { useState } from 'react'
-import { View, TouchableOpacity } from 'react-native';
-import DatePicker from 'react-native-date-picker'
-import { DefaultTheme, HelperText, Text } from 'react-native-paper';
-import Svg, { Path, SvgProps } from 'react-native-svg';
+import { FieldMetaProps, FormikErrors } from "formik";
+import moment from "moment";
+import React, { useState } from "react";
+import { TouchableOpacity, View, Text } from "react-native";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { DefaultTheme, HelperText } from "react-native-paper";
+import Svg, { Path, SvgProps } from "react-native-svg";
+
 interface ValidationDatePickerProps {
-    reset?: boolean;
+    name: string;
+    hideReset?: boolean;
     format?: string;
     placeholder?: string;
     maximumDate?: Date;
     minimumDate?: Date;
     mode?: "date" | "time" | "datetime";
-    androidVariant?: 'iosClone' | 'nativeAndroid';
-    helperTextVisible?: boolean;
-    helperText?: string;
-    locate? : string;
-    confirmText? : string;
-    cancelText?: string;
-    title?: string;
-    onConfirm?: (date: Date) => void | Promise<void>;
-    onCancel?: () => void | Promise<void>;
-    onReset?: () => void | Promise<void>;
-    name: string;
+    onConfirm?: (date: Date) => void;
+    onCancel?: () => void;
+    onReset?: () => void;
     formik:
     {
         handleChange: {
@@ -37,82 +31,211 @@ interface ValidationDatePickerProps {
         setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void> | Promise<FormikErrors<any>>
     }
 }
+
+
 function ValidationDatePicker(props: ValidationDatePickerProps) {
-    const [opened, setOpened] = useState(false);
+    const blankLabel = props.placeholder || "Chọn ngày"
+    const [showModal, setShowModal] = useState(false);
+    const [value, setValue] = useState<Date>();
     const meta = props.formik.getFieldMeta(props.name);
 
-    const getValue = () => {
-        if (meta.value) {
-            return meta.value;
-        }
-        const currentDate = new Date();
-        if (props.maximumDate && props.maximumDate <= currentDate) {
-            return props.maximumDate;
-        }
-        if (props.minimumDate && props.minimumDate >= currentDate) {
-            return props.minimumDate;
-        }
-        return currentDate;
-    }
-    const getLabelColor = () => {
-        if (meta.touched && Boolean(meta.error)) {
-            return DefaultTheme.colors.error;
-        }
-        if (meta.value) {
-            return "black";
-        }
-        return "gray";
-    }
     return (
         <>
-            <DatePicker
-                {...props}
-                modal
-                open={opened}
-                date={getValue()}
-                androidVariant={props.androidVariant}
-                confirmText={props.confirmText}
-                locale={props.locate}
-                maximumDate={props.maximumDate}
-                minimumDate={props.minimumDate}
-                title={props.title}
-                cancelText={props.cancelText}
-                mode={props.mode}
-                onConfirm={async (date) => {
-                    props.onConfirm && await props.onConfirm(date);
-                    props.formik.setFieldValue(props.name, date);
-                    setOpened(false);
-                }}
-                onCancel={async () => {
-                    props.onCancel && await props.onCancel();
-                    setOpened(false);
-                }}
-            />
-
-            <TouchableOpacity style={{ borderBottomWidth: 1.5, borderColor: meta.touched && Boolean(meta.error) ? DefaultTheme.colors.error : "gray", padding: 8, borderRadius: 8, width: "100%", flexDirection: "row" }} onPress={() => setOpened(true)}>
-                <View style={{ width: "90%" }}>
-                    <Text style={{ fontSize: 16, color: getLabelColor() }}>{meta.value ? moment(meta.value).format(props.format || "MM/DD/YYYY") : props.placeholder || "Pick a date"}</Text>
-                </View>
-                <View style={{ width: "10%", alignItems: "flex-end" }}>
+            <View
+                style={{
+                    borderBottomWidth: meta.touched && Boolean(meta.error) ? 2 : 0.75,
+                    flexDirection: "row",
+                    width: "100%",
+                    padding: 5,
+                    paddingLeft: 16,
+                    borderColor: meta.touched && Boolean(meta.error) ? DefaultTheme.colors.error : "black",
+                }}>
+                <TouchableOpacity
+                    onPress={() => setShowModal(true)}
+                    style={{
+                        //borderWidth: 1,
+                        height: "100%",
+                        flexDirection: "row",
+                        width: "90%",
+                        alignItems: "center",
+                        justifyContent: "flex-start"
+                    }}>
+                    <Text style={{
+                        color: value == undefined ? "gray" : "black",
+                        fontSize: 16,
+                        marginRight: 7
+                    }}>{value != undefined ?
+                        props.format ?
+                            moment(value).format(props.format) :
+                            moment(value).format("DD/MM/YYYY") :
+                        props.format || "DD/MM/YYYY"}
+                    </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => setShowModal(true)}
+                    style={{
+                        //borderWidth: 1,
+                        width: "10%",
+                        alignItems: "center",
+                        justifyContent: "center"
+                    }}>
                     {
-                        props.reset ?
-                            meta.value ?
-                                <TouchableOpacity onPress={() => props.formik.setFieldValue(props.name, undefined)}>
-                                    <Exit />
-                                </TouchableOpacity>
-                                :
-                                <Calendar />
+                        !value ?
+                            <Calendar width={20} height={20} />
                             :
-                            <Calendar />
+                            !props.hideReset &&
+                            <TouchableOpacity onPress={() => {
+                                props.formik.setFieldValue(props.name, undefined);
+                                setValue(undefined);
+                                props.onReset && props.onReset();
+                            }}>
+                                <Exit width={20} height={20} />
+                            </TouchableOpacity>
+
+
+                        //<Image source={eventBlack} style={{ width: 20, height: 20 }} resizeMode="contain" />
                     }
-                </View>
-            </TouchableOpacity>
+                </TouchableOpacity>
+            </View>
             <HelperText visible={meta.touched && Boolean(meta.error)} type={meta.error ? "error" : "info"}>
                 {meta.touched && meta.error}
             </HelperText>
+            <DateTimePickerModal
+                maximumDate={props.maximumDate}
+                minimumDate={props.minimumDate}
+                mode={props.mode}
+                date={value}
+                onConfirm={(date) => { setValue(date); props.formik.setFieldValue(props.name, date); setShowModal(false); props.onConfirm && props.onConfirm(date) }}
+                onCancel={() => { setShowModal(false); props.onCancel && props.onCancel() }}
+                isVisible={showModal} />
         </>
     )
 }
+
+
+
+
+
+
+
+
+
+
+// import { FieldMetaProps, FormikErrors } from 'formik';
+// import moment from 'moment';
+// import React, { useState } from 'react'
+// import { View, TouchableOpacity } from 'react-native';
+// import DatePicker from 'react-native-date-picker'
+// import { DefaultTheme, HelperText, Text } from 'react-native-paper';
+// import Svg, { Path, SvgProps } from 'react-native-svg';
+// interface ValidationDatePickerProps {
+//     reset?: boolean;
+//     format?: string;
+//     placeholder?: string;
+//     maximumDate?: Date;
+//     minimumDate?: Date;
+//     mode?: "date" | "time" | "datetime";
+//     androidVariant?: 'iosClone' | 'nativeAndroid';
+//     helperTextVisible?: boolean;
+//     helperText?: string;
+//     locate? : string;
+//     confirmText? : string;
+//     cancelText?: string;
+//     title?: string;
+//     onConfirm?: (date: Date) => void | Promise<void>;
+//     onCancel?: () => void | Promise<void>;
+//     onReset?: () => void | Promise<void>;
+//     name: string;
+//     formik:
+//     {
+//         handleChange: {
+//             (e: React.ChangeEvent<any>): void;
+//             <T_1 = string | React.ChangeEvent<any>>(field: T_1): T_1 extends React.ChangeEvent<any> ? void : (e: string | React.ChangeEvent<any>) => void;
+//         };
+//         handleBlur: {
+//             (e: React.FocusEvent<any, Element>): void;
+//             <T = any>(fieldOrEvent: T): T extends string ? (e: any) => void : void;
+//         };
+//         getFieldMeta: (name: string) => FieldMetaProps<any>;
+//         setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void> | Promise<FormikErrors<any>>
+//     }
+// }
+// function ValidationDatePicker(props: ValidationDatePickerProps) {
+//     const [opened, setOpened] = useState(false);
+//     const meta = props.formik.getFieldMeta(props.name);
+
+//     const getValue = () => {
+//         if (meta.value) {
+//             return meta.value;
+//         }
+//         const currentDate = new Date();
+//         if (props.maximumDate && props.maximumDate <= currentDate) {
+//             return props.maximumDate;
+//         }
+//         if (props.minimumDate && props.minimumDate >= currentDate) {
+//             return props.minimumDate;
+//         }
+//         return currentDate;
+//     }
+//     const getLabelColor = () => {
+//         if (meta.touched && Boolean(meta.error)) {
+//             return DefaultTheme.colors.error;
+//         }
+//         if (meta.value) {
+//             return "black";
+//         }
+//         return "gray";
+//     }
+//     return (
+//         <>
+//             <DatePicker
+//                 {...props}
+//                 modal
+//                 open={opened}
+//                 date={getValue()}
+//                 androidVariant={props.androidVariant}
+//                 confirmText={props.confirmText}
+//                 locale={props.locate}
+//                 maximumDate={props.maximumDate}
+//                 minimumDate={props.minimumDate}
+//                 title={props.title}
+//                 cancelText={props.cancelText}
+//                 mode={props.mode}
+//                 onConfirm={async (date) => {
+//                     props.onConfirm && await props.onConfirm(date);
+//                     props.formik.setFieldValue(props.name, date);
+//                     setOpened(false);
+//                 }}
+//                 onCancel={async () => {
+//                     props.onCancel && await props.onCancel();
+//                     setOpened(false);
+//                 }}
+//             />
+
+//             <TouchableOpacity style={{ borderBottomWidth: 1.5, borderColor: meta.touched && Boolean(meta.error) ? DefaultTheme.colors.error : "gray", padding: 8, borderRadius: 8, width: "100%", flexDirection: "row" }} onPress={() => setOpened(true)}>
+//                 <View style={{ width: "90%" }}>
+//                     <Text style={{ fontSize: 16, color: getLabelColor() }}>{meta.value ? moment(meta.value).format(props.format || "MM/DD/YYYY") : props.placeholder || "Pick a date"}</Text>
+//                 </View>
+//                 <View style={{ width: "10%", alignItems: "flex-end" }}>
+//                     {
+//                         props.reset ?
+//                             meta.value ?
+//                                 <TouchableOpacity onPress={() => props.formik.setFieldValue(props.name, undefined)}>
+//                                     <Exit />
+//                                 </TouchableOpacity>
+//                                 :
+//                                 <Calendar />
+//                             :
+//                             <Calendar />
+//                     }
+//                 </View>
+//             </TouchableOpacity>
+//             <HelperText visible={meta.touched && Boolean(meta.error)} type={meta.error ? "error" : "info"}>
+//                 {meta.touched && meta.error}
+//             </HelperText>
+//         </>
+//     )
+// }
 
 function Calendar(props: SvgProps) {
     return (
