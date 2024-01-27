@@ -8,6 +8,7 @@ import { useInitEffect } from 'ndknitor-ts/hooks';
 import storage from './utils/storage';
 import fetcker from './utils/fetcker';
 import LocalStorageKey from './objects/enums/LocalStorageKey';
+import packages from './package.json';
 const Stack = createStackNavigator();
 export type AppScreens = {
   Index: undefined;
@@ -30,7 +31,7 @@ function StackScreens() {
 export default function Routes() {
   return (
     <NavigationContainer fallback={<Loading />} linking={{
-      prefixes: ['reactnativetemplate://'],
+      prefixes: [`${packages.name}://`],
       config: {
         initialRouteName: 'Index',
         screens: {
