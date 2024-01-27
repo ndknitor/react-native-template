@@ -52,8 +52,9 @@ export default function About(props: StackScreenProps<ParamListBase>) {
           <ValidationDatePicker
             formik={formik}
             name='date'
+            reset
             placeholder="Date"
-            mode='date'
+            mode='datetime'
             format='MM/DD/YYYY HH:MM:SS' />
           <Button mode='contained' onPress={() => formik.handleSubmit()}>Submit</Button>
         </View>
