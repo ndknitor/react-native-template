@@ -123,10 +123,10 @@
 
 import { FieldMetaProps, FormikErrors } from 'formik';
 import moment from 'moment';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { View, TouchableOpacity } from 'react-native';
 import DatePicker from 'react-native-date-picker'
-import { DefaultTheme, HelperText, Text } from 'react-native-paper';
+import { DefaultTheme, HelperText, PaperProvider, Text } from 'react-native-paper';
 import Svg, { Path, SvgProps } from 'react-native-svg';
 interface ValidationDatePickerProps {
     reset?: boolean;
@@ -152,17 +152,20 @@ interface ValidationDatePickerProps {
             (e: React.ChangeEvent<any>): void;
             <T_1 = string | React.ChangeEvent<any>>(field: T_1): T_1 extends React.ChangeEvent<any> ? void : (e: string | React.ChangeEvent<any>) => void;
         };
-        handleBlur: {
-            (e: React.FocusEvent<any, Element>): void;
-            <T = any>(fieldOrEvent: T): T extends string ? (e: any) => void : void;
-        };
         getFieldMeta: (name: string) => FieldMetaProps<any>;
-        setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void> | Promise<FormikErrors<any>>
+        setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void> | Promise<FormikErrors<any>>;
     }
 }
 function ValidationDatePicker(props: ValidationDatePickerProps) {
     const [opened, setOpened] = useState(false);
+    const [touched, setTouched] = useState(false);
     const meta = props.formik.getFieldMeta(props.name);
+
+    useEffect(() => {
+        if (meta.touched) {
+            setTouched(true);
+        }
+    }, [meta.touched]);
 
     const getValue = () => {
         if (meta.value) {
@@ -178,7 +181,7 @@ function ValidationDatePicker(props: ValidationDatePickerProps) {
         return currentDate;
     }
     const getLabelColor = () => {
-        if (meta.touched && Boolean(meta.error)) {
+        if (touched && Boolean(meta.error)) {
             return DefaultTheme.colors.error;
         }
         if (meta.value) {
@@ -210,11 +213,12 @@ function ValidationDatePicker(props: ValidationDatePickerProps) {
                     props.onCancel && await props.onCancel();
                     setOpened(false);
                 }}
+
             />
 
 
             <TouchableOpacity
-                style={{ borderBottomWidth: 1.5, borderColor: meta.touched && Boolean(meta.error) ? DefaultTheme.colors.error : "gray", padding: 8, borderRadius: 8, width: "100%", flexDirection: "row" }}
+                style={{ borderBottomWidth: 1.5, borderColor: touched && Boolean(meta.error) ? DefaultTheme.colors.error : "gray", padding: 8, borderRadius: 8, width: "100%", flexDirection: "row" }}
                 onPress={() => setOpened(true)}>
                 <View style={{ width: "90%" }}>
                     <Text style={{ fontSize: 16, color: getLabelColor() }}>{meta.value ? moment(meta.value).format(props.format || "MM/DD/YYYY") : props.placeholder || "Pick a date"}</Text>
@@ -223,7 +227,7 @@ function ValidationDatePicker(props: ValidationDatePickerProps) {
                     {
                         props.reset ?
                             meta.value ?
-                                <TouchableOpacity onPress={() => props.formik.setFieldValue(props.name, undefined)}>
+                                <TouchableOpacity onPress={(e) => { props.formik.setFieldValue(props.name, undefined) }}>
                                     <Cancel />
                                 </TouchableOpacity>
                                 :
@@ -233,8 +237,8 @@ function ValidationDatePicker(props: ValidationDatePickerProps) {
                     }
                 </View>
             </TouchableOpacity>
-            <HelperText visible={meta.touched && Boolean(meta.error)} type={meta.error ? "error" : "info"}>
-                {meta.touched && meta.error}
+            <HelperText visible={touched && Boolean(meta.error)} type={meta.error ? "error" : "info"}>
+                {touched && meta.error}
             </HelperText>
         </>
     )

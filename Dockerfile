@@ -3,11 +3,8 @@ FROM node:18
 WORKDIR /app
 
 # Install system dependencies
-RUN apt-get update && \
-    apt-get install -y \
-    curl \
-    wget \
-    unzip
+RUN apt-get update
+RUN apt-get install -y adb curl wget unzip
 # Install OpenJDK
 RUN mkdir -p /opt/java && \
     curl -L -o openjdk.tar.gz https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.12%2B7/OpenJDK11U-jdk_x64_linux_hotspot_11.0.12_7.tar.gz && \
@@ -34,4 +31,4 @@ EXPOSE 8081
 # Start the React Native packager when the container launches
 CMD ["/bin/bash", "-c", "npm install; npm start"]
 # docker build -t react-native-cli .
-# docker run --rm -it --name react-project -u ${USER}:${USER} -p 8081:8081 -v "$(pwd)":/app react-native-cli
+# docker run --rm -it --name react-project -u $(id -u ${USER}):$(id -g ${USER}) -p 8081:8081 -v "$(pwd)":/app react-native-cli
