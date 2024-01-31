@@ -1,5 +1,4 @@
-import { MAXPAGE } from "@env";
-
+import { MAXPAGE } from "../../env";
 export default class OffsetPagingRequest<T> {
     orderBy: Array<keyof T> = [];
     desc: boolean[] = [];
