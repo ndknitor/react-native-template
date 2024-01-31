@@ -1,15 +1,13 @@
 import React from 'react'
-import { TextInput, View } from 'react-native'
-import useRouter from '../utils/useRouter';
+import { View } from 'react-native'
 import { Button, Text } from 'react-native-paper';
 import useGlobalCount from '../context/hooks/useGlobalCount';
 import { API_BASE_URL } from '../env';
+import { PageProps } from '../utils/nativeprops';
 
-export default function Index() {
-  const { navigate } = useRouter();
+export default function Index(props: PageProps) {
+  const { navigate }  = props.navigation;
   const count = useGlobalCount();
-  // const [scan, setScan] = useState("");
-
   return (
     <View
       style={{ alignItems: "center", justifyContent: "center", width: "100%", height: "100%" }}>

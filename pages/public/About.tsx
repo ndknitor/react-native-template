@@ -59,7 +59,7 @@ export default function About(props: StackScreenProps<ParamListBase>) {
             reset
             placeholder="Date"
             mode='datetime'
-            format='MM/DD/YYYY HH:MM:SS' />
+            format='MM/DD/YYYY hh:mm:ss' />
           <Button mode='contained' onPress={() => formik.handleSubmit()}>Submit</Button>
         </View>
       </View>
