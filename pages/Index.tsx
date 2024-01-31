@@ -3,7 +3,8 @@ import { View } from 'react-native'
 import useRouter from '../utils/useRouter';
 import { Button, Text } from 'react-native-paper';
 import useGlobalCount from '../context/hooks/useGlobalCount';
-import { API_BASE_URL } from '@env';
+import { API_BASE_URL } from '../env';
+import Config from 'react-native-config';
 
 export default function Index() {
   const { navigate } = useRouter();

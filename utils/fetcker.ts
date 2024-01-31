@@ -1,4 +1,4 @@
-import { API_BASE_URL, REQUEST_TIMEOUT } from "@env";
+import { API_BASE_URL, REQUEST_TIMEOUT } from "../env";
 import Message from "./Message";
 import { createFetcker } from "fetcker";
 const fetcker = createFetcker({

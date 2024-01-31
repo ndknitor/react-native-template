@@ -218,10 +218,10 @@ function ValidationDatePicker(props: ValidationDatePickerProps) {
 
 
             <TouchableOpacity
-                style={{ borderBottomWidth: 1.5, borderColor: touched && Boolean(meta.error) ? DefaultTheme.colors.error : "gray", padding: 8, borderRadius: 8, width: "100%", flexDirection: "row" }}
+                style={{ borderBottomWidth: touched && Boolean(meta.error) ? 2 : 1, borderColor: touched && Boolean(meta.error) ? DefaultTheme.colors.error : DefaultTheme.colors.backdrop, padding: 8, width: "100%", flexDirection: "row" }}
                 onPress={() => setOpened(true)}>
-                <View style={{ width: "90%" }}>
-                    <Text style={{ fontSize: 16, color: getLabelColor() }}>{meta.value ? moment(meta.value).format(props.format || "MM/DD/YYYY") : props.placeholder || "Pick a date"}</Text>
+                <View style={{ width: "90%", paddingLeft: 8 }}>
+                    <Text style={{ fontSize: 17, fontWeight: "500", color: getLabelColor() }}>{meta.value ? moment(meta.value).format(props.format || "MM/DD/YYYY") : props.placeholder || "Pick a date"}</Text>
                 </View>
                 <View style={{ width: "10%", alignItems: "flex-end" }}>
                     {
