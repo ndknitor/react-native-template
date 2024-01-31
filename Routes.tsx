@@ -39,7 +39,10 @@ export default function Routes() {
             path: 'index'
           },
           About: {
-            path: 'about'
+            path: 'about/:id',
+            parse: {
+              id: (id) => Number(id)
+            }
           }
         }
       }

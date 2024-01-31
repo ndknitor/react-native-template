@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { View } from 'react-native'
 import { Button, DefaultTheme, Text } from 'react-native-paper'
 import Animated, { FadeInDown } from 'react-native-reanimated'
@@ -28,6 +28,10 @@ export default function About(props: StackScreenProps<ParamListBase>) {
       // });
     },
   });
+  const params = props.route.params as { id?: number };
+  useEffect(() => {
+    console.log(props.route.params);
+  }, []);
 
   return (
     <Animated.View entering={FadeInDown.duration(600)} style={{ width: "100%", height: "100%" }}>
