@@ -3,7 +3,7 @@ import Message from "./Message";
 import { createFetcker } from "fetcker";
 const fetcker = createFetcker({
     baseUrl: API_BASE_URL,
-    requestTimeOut: parseInt(REQUEST_TIMEOUT),
+    requestTimeOut: REQUEST_TIMEOUT,
     onError: (error) => {
         let message = "";
         switch (error.name) {

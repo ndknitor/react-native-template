@@ -16,7 +16,7 @@ export default class OffsetPagingRequest<T> {
             this.size = self.size;
         }
         else {
-            this.size = parseInt(MAXPAGE);
+            this.size = MAXPAGE;
         }
     }
 }
