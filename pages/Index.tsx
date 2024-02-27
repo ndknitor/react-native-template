@@ -3,9 +3,10 @@ import { TextInput, View } from 'react-native'
 import { Button, Text } from 'react-native-paper';
 import useGlobalCount from '../context/hooks/useGlobalCount';
 import { API_BASE_URL } from '../env';
-import { PageProps } from '../utils/nativeprops';
+import { StackScreenProps } from '@react-navigation/stack';
+import { ParamListBase } from '@react-navigation/native';
 
-export default function Index(props: PageProps) {
+export default function Index(props: StackScreenProps<ParamListBase>) {
   const { navigate }  = props.navigation;
   const count = useGlobalCount();
   //const [scan, setScan] = useState("");

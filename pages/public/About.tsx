@@ -12,6 +12,7 @@ import ValidationTextInput from '../../components/ValidationTextInput/Validation
 import ValidationDatePicker from '../../components/ValidationDatePicker/ValidationDatePicker'
 
 export default function About(props: StackScreenProps<ParamListBase>) {
+  const params = props.route.params as { id?: number };
   const schema = SignInRequest();
   const formik = useFormik({
     initialValues: schema.getDefault(),
@@ -28,10 +29,9 @@ export default function About(props: StackScreenProps<ParamListBase>) {
       // });
     },
   });
-  const params = props.route.params as { id?: number };
   useEffect(() => {
-    console.log(props.route.params);
-  }, []);
+    console.log(params);
+  }, [params]);
 
   return (
     <Animated.View entering={FadeInDown.duration(600)} style={{ width: "100%", height: "100%" }}>

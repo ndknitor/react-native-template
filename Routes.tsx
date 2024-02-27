@@ -10,12 +10,6 @@ import fetcker from './utils/fetcker';
 import LocalStorageKey from './objects/enums/LocalStorageKey';
 import packages from './package.json';
 const Stack = createStackNavigator();
-export type AppScreens = {
-  Index: undefined;
-  About: undefined;
-  Forbidden: undefined;
-  Unauthorized: undefined;
-}
 function StackScreens() {
   useInitEffect(() => {
     fetcker.setAuthorizationHeader(storage.getString(LocalStorageKey.Jwt));
