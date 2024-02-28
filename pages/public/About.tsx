@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { View } from 'react-native'
-import { Button, DefaultTheme, Text } from 'react-native-paper'
+import { Button } from 'react-native-paper'
 import Animated, { FadeInDown } from 'react-native-reanimated'
 import { useFormik } from 'formik'
 import SignInRequest from '../../objects/requests/SignInRequest'
@@ -10,9 +10,11 @@ import { StackScreenProps } from '@react-navigation/stack'
 import { ParamListBase } from '@react-navigation/native'
 import ValidationTextInput from '../../components/ValidationTextInput/ValidationTextInput'
 import ValidationDatePicker from '../../components/ValidationDatePicker/ValidationDatePicker'
-
+interface Params {
+  id?: number;
+}
 export default function About(props: StackScreenProps<ParamListBase>) {
-  const params = props.route.params as { id?: number };
+  const params = props.route.params as Params;
   const schema = SignInRequest();
   const formik = useFormik({
     initialValues: schema.getDefault(),
