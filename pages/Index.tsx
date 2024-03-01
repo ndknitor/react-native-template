@@ -5,11 +5,12 @@ import useGlobalCount from '../context/hooks/useGlobalCount';
 import { API_BASE_URL } from '../env';
 import { StackScreenProps } from '@react-navigation/stack';
 import { ParamListBase } from '@react-navigation/native';
+import ScanTextInput from '../components/ScanTextInput/ScanTextInput';
 
 export default function Index(props: StackScreenProps<ParamListBase>) {
-  const { navigate }  = props.navigation;
+  const { navigate } = props.navigation;
   const count = useGlobalCount();
-  //const [scan, setScan] = useState("");
+  // const [scan, setScan] = useState("");
   return (
     <View
       style={{ alignItems: "center", justifyContent: "center", width: "100%", height: "100%" }}>
@@ -17,16 +18,11 @@ export default function Index(props: StackScreenProps<ParamListBase>) {
       <Button mode='contained' onPress={count.increase}>{count.value}</Button>
       <Button mode='contained' onPress={() => navigate("About")}>About</Button>
       {/* <AssetSvg.Ruby width={100} height={100} /> */}
-      {/* <TextInput
-        showSoftInputOnFocus={false}
-        blurOnSubmit={false}
-        autoFocus
-        onChangeText={setScan}
-        value={scan}
-        onSubmitEditing={(e) => {
-          console.log(scan);
-          setScan("");
-        }} /> */}
+      <ScanTextInput
+        // onChangeText={setScan}
+        // value={scan}
+        onScanSubmit={console.log}
+      />
     </View>
   )
 }
