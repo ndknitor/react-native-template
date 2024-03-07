@@ -6,6 +6,7 @@ import { API_BASE_URL } from '../env';
 import { StackScreenProps } from '@react-navigation/stack';
 import { ParamListBase } from '@react-navigation/native';
 import ScanTextInput from '../components/ScanTextInput/ScanTextInput';
+import Toast from 'react-native-root-toast';
 
 export default function Index(props: StackScreenProps<ParamListBase>) {
   const { navigate } = props.navigation;
@@ -21,7 +22,7 @@ export default function Index(props: StackScreenProps<ParamListBase>) {
       <ScanTextInput
         // onChangeText={setScan}
         // value={scan}
-        onScanSubmit={console.log}
+        onScanSubmit={Toast.show}
       />
     </View>
   )
