@@ -1,4 +1,4 @@
-import React, { RefObject, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { TextInput, TextInputProps } from 'react-native'
 import useRouter from '../../utils/useRouter';
 interface ScanTextInputProps extends TextInputProps {
