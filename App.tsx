@@ -1,6 +1,5 @@
 import React from 'react';
 import Routes from './Routes';
-import AuthorizeContextProvider from './context/AuthorizeContextProvider';
 import { RootSiblingParent } from 'react-native-root-siblings';
 
 // import OneSignal from 'react-native-onesignal';
@@ -20,14 +19,10 @@ import { RootSiblingParent } from 'react-native-root-siblings';
 //     console.log("OneSignal: notification opened:", notification);
 // });
 
-
-
 function App(): JSX.Element {
   return (
     <RootSiblingParent>
-      <AuthorizeContextProvider unauthorized={"Unauthorized"} forbidden={'Forbidden'} onInitAuthorize={() => false}>
-        <Routes />
-      </AuthorizeContextProvider>
+      <Routes />
     </RootSiblingParent>
   );
 }

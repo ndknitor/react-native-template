@@ -4,6 +4,7 @@ outputs/
 .DS_Store
 package-lock.json
 yarn.lock
+.yarn/
 # Xcode
 #
 build/

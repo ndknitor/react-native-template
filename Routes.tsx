@@ -1,19 +1,18 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Index from './pages/Index';
 import About from './pages/public/About';
 import Loading from './components/Loading/Loading';
-import { useInitEffect } from 'ndknitor-ts/hooks';
 import storage from './utils/storage';
 import fetcker from './utils/fetcker';
 import LocalStorageKey from './objects/enums/LocalStorageKey';
 import packages from './package.json';
 const Stack = createStackNavigator();
 function StackScreens() {
-  useInitEffect(() => {
+  useEffect(() => {
     fetcker.setAuthorizationHeader(storage.getString(LocalStorageKey.Jwt));
-  });
+  }, []);
   return (
     <Stack.Navigator>
       <Stack.Screen name={"Index"} component={Index}></Stack.Screen>
