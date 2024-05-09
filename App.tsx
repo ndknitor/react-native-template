@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { DependencyList, useEffect, useRef } from 'react';
 import Routes from './Routes';
 import { RootSiblingParent } from 'react-native-root-siblings';
+import fetcker from './utils/fetcker';
+import storage from './utils/storage';
+import LocalStorageKey from './objects/enums/LocalStorageKey';
+import { useInitEffect } from 'ndknitor-ts/hooks';
 
 // import OneSignal from 'react-native-onesignal';
 // import { ONESIGNAL_APP_ID } from '@env';
@@ -20,6 +24,9 @@ import { RootSiblingParent } from 'react-native-root-siblings';
 // });
 
 function App(): JSX.Element {
+  useInitEffect(() => {
+    fetcker.setAuthorizationHeader(storage.getString(LocalStorageKey.Jwt));
+  });
   return (
     <RootSiblingParent>
       <Routes />
